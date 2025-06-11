@@ -1,0 +1,553 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
+import { Button } from "../components/ui/button"
+import { Badge } from "../components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
+import {
+  FileText,
+  Mail,
+  Download,
+  Edit3,
+  Trash2,
+  Plus,
+  Star,
+  Calendar,
+  TrendingUp,
+  Target,
+  Zap,
+  Eye,
+  Share2,
+} from "lucide-react"
+import { useAuth } from "../components/auth-provider"
+import { Link, useNavigate } from "react-router-dom"
+import {client  , GET_JOBS_BY_USER_ID , GET_RESUME_BY_USER_ID  , Get_cover_letter_by_userId , getCoverletterById , getJobById , getResumeById , GET_COLD_EMAIL_BY_USERID , getColdEmailById   } from "../lib/api"
+
+export function Dashboard() {
+
+  const jobId = localStorage.getItem("jobId") || ""
+  const resumeId = localStorage.getItem("resumeId") || "" 
+  const userId = localStorage.getItem("userId") || ""
+  const coverLetterId = localStorage.getItem("cover_letterId") || ""
+ const [resumes, setResumes] = useState<any[]>([]);
+const [coverLettersList, setCoverLettersList] = useState<any[]>([]);
+const [jobList, setJobList] = useState<any[]>([]);
+const [coldEmails, setColdEmails] = useState<any[]>([]);
+
+
+// Fetch job data
+  const fetchJobdata_by_user_id=async()=>{
+    const jobs=await client.request(GET_JOBS_BY_USER_ID, { userId })
+    return jobs;
+  }
+
+  const fetchJobdata_by_id=async()=>{
+    const job=await client.request(getJobById, { id: jobId }) 
+    return job;
+  }
+
+  // Fetch resume data
+  const fetchResumedata_by_user_id=async()=>{
+    const resume=await client.request(GET_RESUME_BY_USER_ID, { userId })
+    return resume;
+  }
+
+  const fetchResumedata_by_id=async()=>{
+    const resume=await client.request(getResumeById, { id: resumeId })
+    return resume;
+  }
+
+  // Fetch cover letter data
+
+  const fetchCoverLetterdata_by_user_id=async()=>{
+    const coverLetter=await client.request(Get_cover_letter_by_userId, { userId })
+    return coverLetter;
+  }
+
+  const fetchCoverLetterdata_by_id=async()=>{
+    const coverLetter=await client.request(getCoverletterById, { id: coverLetterId })
+    return coverLetter;
+  }
+
+  // fetch cold email data
+  const fetchColdEmaildata_by_user_id=async()=>{
+    const coldEmail=await client.request(GET_COLD_EMAIL_BY_USERID, { userId })
+    return coldEmail;
+  }
+  const fetchColdEmaildata_by_id=async()=>{
+    const coldEmail=await client.request(getColdEmailById, { id: jobId })
+    return coldEmail;
+  }
+
+  useEffect(() => {
+  const loadData = async () => {
+    try {
+      const resData = await fetchResumedata_by_user_id();
+      setResumes(resData?.getResumeByUserId || []);
+
+      const coverData = await fetchCoverLetterdata_by_user_id();
+      setCoverLettersList(coverData?.getCoverletterByUserId || []);
+
+      const jobData = await fetchJobdata_by_user_id();
+      setJobList(jobData?.getJobbyUserId || []);
+
+      const emails=await fetchColdEmaildata_by_user_id();
+      setColdEmails(emails?.getColdEmailByUserId || []);
+
+    } catch (err) {
+      console.error("Failed to fetch dashboard data:", err);
+    }
+  };
+
+  if (userId) loadData();
+}, []);
+
+
+
+
+
+
+
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState("overview")
+
+  if (!user) {
+    navigate("/auth")
+    return null
+  }
+
+  // Mock data
+  const stats = {
+    totalResumes: 3,
+    coverLetters: 8,
+    emailTemplates: 12,
+    applicationsThisMonth: 15,
+  }
+
+  const recentResumes = [
+    {
+      id: 1,
+      name: "Software Engineer Resume",
+      lastModified: "2 hours ago",
+      status: "active",
+      aiScore: 92,
+    },
+    {
+      id: 2,
+      name: "Full Stack Developer Resume",
+      lastModified: "1 day ago",
+      status: "draft",
+      aiScore: 88,
+    },
+    {
+      id: 3,
+      name: "Senior Developer Resume",
+      lastModified: "3 days ago",
+      status: "archived",
+      aiScore: 95,
+    },
+  ]
+
+  const coverLetters = [
+    {
+      id: 1,
+      title: "Google Software Engineer",
+      company: "Google",
+      position: "Software Engineer",
+      created: "Today",
+      status: "sent",
+      aiScore: 94,
+    },
+    {
+      id: 2,
+      title: "Meta Frontend Developer",
+      company: "Meta",
+      position: "Frontend Developer",
+      created: "Yesterday",
+      status: "draft",
+      aiScore: 89,
+    },
+    {
+      id: 3,
+      title: "Netflix Backend Engineer",
+      company: "Netflix",
+      position: "Backend Engineer",
+      created: "2 days ago",
+      status: "sent",
+      aiScore: 91,
+    },
+  ]
+
+  const emailTemplates = [
+    {
+      id: 1,
+      title: "Follow-up after Google interview",
+      type: "Follow-up",
+      lastUsed: "Today",
+      timesUsed: 3,
+    },
+    {
+      id: 2,
+      title: "LinkedIn connection request",
+      type: "Networking",
+      lastUsed: "2 days ago",
+      timesUsed: 8,
+    },
+    {
+      id: 3,
+      title: "Thank you note - Meta",
+      type: "Thank You",
+      lastUsed: "1 week ago",
+      timesUsed: 1,
+    },
+  ]
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "active":
+      case "sent":
+        return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+      case "draft":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+      case "archived":
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400"
+      default:
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
+    }
+  }
+
+  const getAIScoreColor = (score: number) => {
+    if (score >= 90) return "text-green-600 dark:text-green-400"
+    if (score >= 80) return "text-yellow-600 dark:text-yellow-400"
+    return "text-red-600 dark:text-red-400"
+  }
+
+  return (
+    <div className="space-y-8 text-gray-600 dark:text-gray-300">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0"
+      >
+        <div>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+            Welcome back, {user?.firstName}!
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-1">
+            Manage your career documents and track your job search progress
+          </p>
+        </div>
+        <div className="flex items-center space-x-3">
+          <Badge
+            className={`${user.plan === "pro" ? "bg-gradient-to-r from-purple-500 to-pink-500" : "bg-gray-500"} text-white`}
+          >
+            {user.plan.toUpperCase()} Plan
+          </Badge>
+          <Button onClick={logout} variant="outline" className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+            Sign Out
+          </Button>
+        </div>
+      </motion.div>
+
+      {/* Stats Cards */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+      >
+        <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-blue-500/20 backdrop-blur-xl">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Resumes</p>
+                <p className="text-3xl font-bold text-blue-700 dark:text-blue-300">{resumes?.length || 0}</p>
+              </div>
+              <FileText className="w-8 h-8 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-purple-500/20 backdrop-blur-xl">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Cover Letters</p>
+                <p className="text-3xl font-bold text-purple-700 dark:text-purple-300">{coverLettersList?.length || 0}</p>
+              </div>
+              <Mail className="w-8 h-8 text-purple-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-green-500/10 to-green-600/10 border-green-500/20 backdrop-blur-xl">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-green-600 dark:text-green-400">Email Templates</p>
+                <p className="text-3xl font-bold text-green-700 dark:text-green-300">{coldEmails?.length}</p>
+              </div>
+              <Mail className="w-8 h-8 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-orange-500/10 to-orange-600/10 border-orange-500/20 backdrop-blur-xl">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Applications</p>
+                <p className="text-3xl font-bold text-orange-700 dark:text-orange-300">{(resumes?.length + coverLetters.length + coldEmails.length-1 ) || 0}</p>
+                <p className="text-xs text-orange-600 dark:text-orange-400">This month</p>
+              </div>
+              <TrendingUp className="w-8 h-8 text-orange-500" />
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Main Content Tabs */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="resumes">Resumes</TabsTrigger>
+            <TabsTrigger value="cover-letters">Cover Letters</TabsTrigger>
+            <TabsTrigger value="emails">Email Templates</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              {/* Recent Activity */}
+              <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Calendar className="w-5 h-5" />
+                    <span>Recent Activity</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                    <FileText className="w-4 h-4 text-blue-600" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">Updated Software Engineer Resume</p>
+                      <p className="text-xs text-gray-500">2 hours ago</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20">
+                    <Mail className="w-4 h-4 text-purple-600" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">Created cover letter for Google</p>
+                      <p className="text-xs text-gray-500">1 day ago</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-green-50 dark:bg-green-900/20">
+                    <Target className="w-4 h-4 text-green-600" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">Applied to Meta Frontend role</p>
+                      <p className="text-xs text-gray-500">2 days ago</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* AI Insights */}
+              <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Zap className="w-5 h-5 text-yellow-500" />
+                    <span>AI Insights</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-4 rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-800">
+                    <h4 className="font-medium text-yellow-800 dark:text-yellow-200">Resume Optimization</h4>
+                    <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
+                      Add more quantified achievements to increase your ATS score by 15%
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800">
+                    <h4 className="font-medium text-blue-800 dark:text-blue-200">Cover Letter Tip</h4>
+                    <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                      Personalize your opening paragraph for each company to improve response rates
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800">
+                    <h4 className="font-medium text-green-800 dark:text-green-200">Application Strategy</h4>
+                    <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                      You're 3x more likely to get responses when applying within 48 hours of job posting
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="resumes" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold">My Resumes</h2>
+              <Link to="/">
+              <Button className="bg-gradient-to-r text-white from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+                <Plus className="w-4 h-4 mr-2" />
+                Parse New Resume
+              </Button>
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {resumes.map((resume) => (
+                <Card
+                  key={resume.id}
+                  className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                >
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <FileText className="w-8 h-8 text-blue-500" />
+                      {/* <Badge className={getStatusColor(resume.status)}>{resume.status}</Badge> */}
+                    </div>
+                    <CardTitle className="text-lg">{(resume?.resume_data?.Name) || resume?.resume_data?.name}</CardTitle>
+                    {/* <CardDescription>Last modified: {resume.lastModified}</CardDescription> */}
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      {/* <span className="text-sm font-medium">AI Score</span> */}
+                      {/* <span className={`text-lg font-bold ${getAIScoreColor(resume.aiScore)}`}>{resume.aiScore}%</span> */}
+                    </div>
+                    <div className="flex space-x-2">
+                      <Link to={`/resume/${resume.id}`}>
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <Eye className="w-4 h-4 mr-1" />
+                        View
+                      </Button>
+                      </Link>
+                      {/* <Button size="sm" variant="outline" className="flex-1">
+                        <Edit3 className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Download className="w-4 h-4" />
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Trash2 className="w-4 h-4" />
+                      </Button> */}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="cover-letters" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold">Cover Letters</h2>
+              <Link to ="/">
+              <Button className="bg-gradient-to-r text-white from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+                <Plus className="w-4 h-4 mr-2" />
+                Generate New Cover Letter
+              </Button>
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {coverLettersList.map((letter, index) => (
+                <Card
+                  key={letter.id}
+                  className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                >
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <Mail className="w-8 h-8 text-purple-500" />
+                      {/* <Badge className={getStatusColor(letter.status)}>{letter.status}</Badge> */}
+                    </div>
+                    <CardTitle className="text-lg">{letter.title?.trim() || `Cover Letter ${index + 1}`}</CardTitle>
+                    {/* <CardDescription>
+                      {letter.company} • {letter.position}
+                    </CardDescription> */}
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      {/* <span className="text-sm text-gray-500">Created: {letter.created}</span> */}
+                      {/* <span className={`text-sm font-bold ${getAIScoreColor(letter.aiScore)}`}>
+                        AI Score: {letter.aiScore}%
+                      </span> */}
+                    </div>
+                    <div className="flex space-x-2">
+                      <Link to={`/cover_letter/${letter.id}`}>
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <Eye className="w-4 h-4 mr-1" />
+                        View
+                      </Button>
+                      </Link>
+                      {/* <Button size="sm" variant="outline" className="flex-1">
+                        <Edit3 className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Share2 className="w-4 h-4" />
+                      </Button> */}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="emails" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold">Email Templates</h2>
+              <Link to="/">
+              <Button className="bg-gradient-to-r text-white from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600">
+                <Plus className="w-4 h-4 mr-2" />
+                Create Email Template
+              </Button>
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {coldEmails.map((template,index) => (
+                <Card
+                  key={template.id}
+                  className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                >
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      {/* <Mail className="w-8 h-8 text-green-500" />
+                      <Badge variant="secondary">{template.type}</Badge> */}
+                    </div>
+                    <CardTitle className="text-lg">{template.title || `Cold Email ${index + 1}`}</CardTitle>
+                    {/* <CardDescription>
+                      Used {template.timesUsed} times • Last used: {template.lastUsed}
+                    </CardDescription> */}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex space-x-2">
+                      <Link to={`/email/${template.id}`}>
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <Eye className="w-4 h-4 mr-1" />
+                        View
+                      </Button>
+                      </Link>
+                      {/* <Button size="sm" variant="outline" className="flex-1">
+                        <Edit3 className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Star className="w-4 h-4" />
+                      </Button> */}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </motion.div>
+    </div>
+  )
+}
+
+
