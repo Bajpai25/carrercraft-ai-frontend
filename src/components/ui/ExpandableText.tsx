@@ -8,7 +8,7 @@ interface ExpandableTextProps {
 
 export const ExpandableText: React.FC<ExpandableTextProps> = ({ text, lines = 4 }) => {
   const [expanded, setExpanded] = useState(false)
-  const [clamp, setClamp] = useState(true)
+  // const [clamp, setClamp] = useState(true)
   const textRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
