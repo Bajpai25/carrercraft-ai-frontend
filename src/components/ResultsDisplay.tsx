@@ -4,30 +4,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs"
 import { Badge } from "../components/ui/badge"
 import { Textarea } from "../components/ui/textarea"
-import { CheckCircle,  Download, FileText,  Briefcase, Trophy, Star, Code } from "lucide-react"
+import { CheckCircle, FileText,  Briefcase, Trophy, Star, Code } from "lucide-react"
 import { motion } from "framer-motion"
 import {client ,getColdEmailById,getCoverletterById , getJobById , getResumeById  } from "../lib/api"
 import {   useEffect,useState } from "react"
 import { ExpandableText } from "./ui/ExpandableText"
 import { useLocation , useNavigate } from "react-router-dom"
-
-interface ResultsDisplayProps {
-  matchedSkills: string[]
-  missingSkills: string[]
-  learningResources: Array<{
-    title: string
-    url: string
-  }>
-  coverLetter: string
-  latexResumeUrl: string
-}
+import type {Resume , CoverLetter , ColdEmail , Job, EducationEntry, ExperienceEntry, ProjectEntry, ResponsibilityEntry} from "../pages/Dashboard"
 
 
 
-export function ResultsDisplay({
-  
-  latexResumeUrl,
-}: ResultsDisplayProps) {
+
+
+
+export function ResultsDisplay() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -39,17 +29,34 @@ export function ResultsDisplay({
   }
  
 
-  const jobId = localStorage.getItem("jobId") || ""
-  const resumeId = localStorage.getItem("resumeId") || "" 
+  // const jobId = localStorage.getItem("jobId") || ""
+  // const resumeId = localStorage.getItem("resumeId") || "" 
   // const userId = localStorage.getItem("userId") || ""
   const coverLetterId = localStorage.getItem("cover_letterId") || ""
   const emailId=localStorage.getItem("emailId") || ""
-  const [jobData, setJobData] = useState<any>(null)
-  const [resumeData, setResumeData] = useState<any>(null)
-  const [coverLetterData, setCoverLetterData] = useState<any>(null)
-  const [coldemailData,setColdemaildata]=useState<any>(null);
+  const [jobData, setJobData] = useState<Job| null>(null)
+  const [resumeData, setResumeData] = useState<Resume| null>(null)
+  const [coverLetterData, setCoverLetterData] = useState<CoverLetter| null>(null)
+  const [coldemailData,setColdemaildata]=useState<ColdEmail | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  interface GetResumeByIdResponse {
+  getResumeById: Resume
+}
+
+interface GetCoverletterByIdResponse {
+  getCoverletterById: CoverLetter
+}
+
+interface GetJobbyIdResponse {
+  getJobbyId: Job
+}
+
+interface GetColdEmailByIdResponse {
+  getColdEmailById: ColdEmail
+}
+
 
 useEffect(()=>{
 localStorage.removeItem('coverletter_gen');
@@ -63,15 +70,15 @@ localStorage.removeItem('coldemail_gen');
   //   return jobs;
   // }
 
-  const fetchJobdata_by_id=async()=>{
-    const job=await client.request(getJobById, { id: jobId }) 
-    return job;
-  }
+  // const fetchJobdata_by_id=async()=>{
+  //   const job=await client.request(getJobById, { id: jobId }) 
+  //   return job;
+  // }
 
-  const fetch_coldemail_by_id=async()=>{
-    const coldemail=await client.request(getCoverletterById, { id: emailId })
-    return coldemail;
-  }
+  // const fetch_coldemail_by_id=async()=>{
+  //   const coldemail=await client.request(getCoverletterById, { id: emailId })
+  //   return coldemail;
+  // }
 
   // Fetch resume data
   // const fetchResumedata_by_user_id=async()=>{
@@ -79,10 +86,10 @@ localStorage.removeItem('coldemail_gen');
   //   return resume;
   // }
 
-  const fetchResumedata_by_id=async()=>{
-    const resume=await client.request(getResumeById, { id: resumeId })
-    return resume;
-  }
+  // const fetchResumedata_by_id=async()=>{
+  //   const resume=await client.request(getResumeById, { id: resumeId })
+  //   return resume;
+  // }
 
   // Fetch cover letter data
 
@@ -91,10 +98,10 @@ localStorage.removeItem('coldemail_gen');
   //   return coverLetter;
   // }
 
-  const fetchCoverLetterdata_by_id=async()=>{
-    const coverLetter=await client.request(getCoverletterById, { id: coverLetterId })
-    return coverLetter;
-  }
+  // const fetchCoverLetterdata_by_id=async()=>{
+  //   const coverLetter=await client.request(getCoverletterById, { id: coverLetterId })
+  //   return coverLetter;
+  // }
 
  useEffect(() => {
   let isMounted = true
@@ -102,15 +109,15 @@ localStorage.removeItem('coldemail_gen');
   const fetchData = async () => {
     const jobId = localStorage.getItem("jobId") || ""
     const resumeId = localStorage.getItem("resumeId") || "" 
-    const userId = localStorage.getItem("userId") || ""
+    // const userId = localStorage.getItem("userId") || ""
     const coverLetterId = localStorage.getItem("cover_letterId") || ""
 
     try {
-      const [job, resume, coverLetter,coldEmail] = await Promise.all([
-        client.request(getJobById, { id: jobId }),
-        client.request(getResumeById, { id: resumeId }),
-        client.request(getCoverletterById, { id: coverLetterId }),
-        client.request(getColdEmailById, { id: emailId }),
+      const [job , resume, coverLetter,coldEmail] = await Promise.all([
+        client.request<GetJobbyIdResponse>(getJobById, { id: jobId }),
+        client.request<GetResumeByIdResponse>(getResumeById, { id: resumeId }),
+        client.request<GetCoverletterByIdResponse>(getCoverletterById, { id: coverLetterId }),
+        client.request<GetColdEmailByIdResponse>(getColdEmailById, { id: emailId }),
       ])
 
       if (isMounted) {
@@ -130,10 +137,11 @@ localStorage.removeItem('coldemail_gen');
     isMounted = false
   }
 }, []) // empty dependency array ensures this runs only once on mount
-console.log(coverLetterData);
-console.log(jobData);
+
+// console.log(coverLetterData);
+// console.log(jobData);
 console.log(resumeData);
-console.log(coldemailData);
+// console.log(coldemailData);
 
 
 
@@ -271,7 +279,7 @@ console.log(coldemailData);
           <TabsContent value="description">
             <h3 className="font-semibold text-lg mb-2">Job Description</h3>
 
-            <ExpandableText text={jobData?.description} lines={4} />
+            <ExpandableText text={jobData?.description ?? ""} lines={4} />
           </TabsContent>
         </Tabs>
       </CardContent>
@@ -307,12 +315,11 @@ console.log(coldemailData);
           {/* Education */}
           <TabsContent value="education">
             <h3 className="font-semibold text-lg mb-2">Education</h3>
-            <ul className="space-y-2 list-disc list-inside">
-              {(resumeData?.resume_data?.Education || resumeData?.resume_data?.education)?.map((edu: any, index: number) => (
+            <ul className="space-y-2 list-disc ">
+              {(resumeData?.resume_data?.Education || resumeData?.resume_data?.education)?.map((edu: EducationEntry, index: number) => (
                 <li key={index}>
                   <p>{edu.degree} at {edu.school} ({edu.duration})</p>
-                  {edu.gpa && <p>GPA: {edu.gpa}</p>}
-                  {edu.percentage && <p>Percentage: {edu.percentage}</p>}
+                  {edu.details}
                 </li>
               ))}
             </ul>
@@ -321,14 +328,12 @@ console.log(coldemailData);
           {/* Experience */}
           <TabsContent value="experience">
             <h3 className="font-semibold text-lg mb-2">Experience</h3>
-            <ul className="space-y-3 list-disc list-inside">
-              {(resumeData?.resume_data?.Experience || resumeData?.resume_data?.experience)?.map((exp: any, index: number) => (
+            <ul className="space-y-3 list-disc ">
+              {(resumeData?.resume_data?.Experience || resumeData?.resume_data?.experience)?.map((exp: ExperienceEntry, index: number) => (
                 <li key={index}>
-                  <p>{exp.role} at {exp.company} ({exp.duration})</p>
+                  <p>{exp?.title} at {exp.company} ({exp.duration})</p>
                   <ul className="list-[circle] ml-4">
-                    {exp.key_points?.map((point: string, idx: number) => (
-                      <li key={idx}>{point}</li>
-                    ))}
+                    {exp?.description}
                   </ul>
                 </li>
               ))}
@@ -338,11 +343,11 @@ console.log(coldemailData);
           {/* Projects */}
           <TabsContent value="projects">
             <h3 className="font-semibold text-lg mb-2">Projects</h3>
-            <ul className="space-y-3 list-disc list-inside">
-              {(resumeData?.resume_data?.Projects || resumeData?.resume_data?.projects)?.map((proj: any, index: number) => (
+            <ul className="space-y-3 list-disc ">
+              {(resumeData?.resume_data?.Projects || resumeData?.resume_data?.projects)?.map((proj: ProjectEntry, index: number) => (
                 <li key={index}>
                   <p><strong>{proj.name}</strong>: {proj.description}</p>
-                  <p><strong>Technologies:</strong> {proj.technologies.join(", ")}</p>
+                  <p><strong>Technologies:</strong> {(proj?.technologies?.length ? proj.technologies.join(", ") : "")}</p>
                 </li>
               ))}
             </ul>
@@ -450,9 +455,9 @@ console.log(coldemailData);
               <div>
                 <h3 className="font-semibold text-lg mb-1">Positions of Responsibility</h3>
                 <ul className="list-disc list-inside">
-                  {(resumeData?.resume_data?.["Positions of Responsibility"] || resumeData?.resume_data?.positionsOfResponsibility)?.map((pos: any, index: number) => (
+                  {resumeData?.resume_data?.PositionsOfResponsibility?.map((pos: ResponsibilityEntry, index: number) => (
                     <li key={index}>
-                      {pos.title || pos.role} at {pos.description}
+                    {pos.role || ''} at {pos.organization || ""} from {pos.duration || ""}
                     </li>
                   ))}
                 </ul>

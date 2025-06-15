@@ -8,34 +8,52 @@ import { client, getCoverletterById } from "../lib/api"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "../components/ui/card"
 import { Skeleton } from "../components/ui/skeleton"
-import { Badge } from "../components/ui/badge"
 import { Share2, Copy, ExternalLink, Loader2, Download, Printer } from "lucide-react"
+import type { CoverLetter } from "./Dashboard"
 
-const CoverLetter = () => {
+interface GetCoverletterByIdResponse {
+  getCoverletterById: CoverLetter
+}
+
+const CoverLetter_Single = () => {
   const { id } = useParams<{ id: string }>()
-  const [cover_letter_data, setCoverLetterData] = useState<any>(null)
+  const [cover_letter_data, setCoverLetterData] = useState<CoverLetter | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>("")
   const [copying, setCopying] = useState<boolean>(false)
 
   useEffect(() => {
     fetchCoverLetterData()
-  }, [id])
+  },[])
 
-  const fetchCoverLetterData = async () => {
-    try {
-      setLoading(true)
-      const response = await client.request(getCoverletterById, { id })
-      console.log(response)
-      setCoverLetterData(response?.getCoverletterById)
-    } catch (err) {
-        console.log(err)
-      setError("Failed to fetch cover letter data")
-      toast.error("Failed to fetch cover letter data")
-    } finally {
-      setLoading(false)
-    }
+  // const fetchCoverLetterData =  async (): Promise <GetCoverletterByIdResponse> => {
+  //   try {
+  //     setLoading(true)
+  //     const getCoverletterById = client.request(getCoverletterById, { id })
+  //     setCoverLetterData(response?.getCoverletterById)
+  //   } catch (err) {
+  //       console.log(err)
+  //     setError("Failed to fetch cover letter data")
+  //     toast.error("Failed to fetch cover letter data")
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+  const fetchCoverLetterData = async (): Promise<void> => {
+  try {
+    setLoading(true)
+    
+    const response: GetCoverletterByIdResponse = await client.request(getCoverletterById, { id })
+    
+    setCoverLetterData(response.getCoverletterById)
+  } catch (err) {
+    console.error(err)
+    setError("Failed to fetch cover letter data")
+    toast.error("Failed to fetch cover letter data")
+  } finally {
+    setLoading(false)
   }
+}
 
   const formatCoverLetter = (text: string) => {
     return text.split("\\n").map((line, index) => (
@@ -60,7 +78,8 @@ const CoverLetter = () => {
           color: "#fff",
         },
       })
-    } catch (err) {
+    } catch (err:unknown) {
+      console.error("Failed to copy to clipboard:", err)
       toast.error("Failed to copy to clipboard", {
         duration: 3000,
         position: "top-center",
@@ -274,7 +293,7 @@ const CoverLetter = () => {
                         className="border-green-200 text-green-600 hover:bg-green-50"
                       >
                         <ExternalLink className="h-4 w-4 mr-2" />
-                        View Original
+                        Job Link
                       </Button>
                     )}
                     <Button
@@ -336,4 +355,4 @@ const CoverLetter = () => {
   )
 }
 
-export default CoverLetter
+export default CoverLetter_Single

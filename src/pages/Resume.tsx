@@ -29,10 +29,16 @@ import {
   MapPin,
   Star,
 } from "lucide-react"
+import type { Resume , ExperienceEntry, ProjectEntry, EducationEntry , ResponsibilityEntry } from "./Dashboard"
 
-const Resume = () => {
+interface GetResumeByIdResponse {
+  getResumeById: Resume
+}
+
+
+const Resume_single = () => {
   const { id } = useParams<{ id: string }>()
-  const [resumeData, setResumeData] = useState<any>(null)
+  const [resumeData, setResumeData] = useState<Resume | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string>("")
   const [copying, setCopying] = useState<boolean>(false)
@@ -41,12 +47,13 @@ const Resume = () => {
     fetchResumeData()
   }, [id])
 
-  const fetchResumeData = async () => {
+  const fetchResumeData = async (): Promise<void> => {
     try {
       setLoading(true)
-      const response = await client.request(getResumeById, { id })
+      const response:GetResumeByIdResponse = await client.request(getResumeById, { id })
       setResumeData(response?.getResumeById)
-    } catch (err) {
+    } catch (err:unknown) {
+      console.log(err)
       setError("Failed to fetch resume data")
       toast.error("Failed to fetch resume data")
     } finally {
@@ -69,7 +76,8 @@ const Resume = () => {
           color: "#fff",
         },
       })
-    } catch (err) {
+    } catch (err:unknown) {
+      console.error("Failed to copy to clipboard:", err)
       toast.error("Failed to copy to clipboard", {
         duration: 3000,
         position: "top-center",
@@ -91,8 +99,8 @@ const Resume = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${resumeData?.resume_data?.name}'s Resume`,
-          text: `Check out ${resumeData?.resume_data?.name}'s professional resume`,
+          title: `${resumeData?.resume_data?.Name ||resumeData?.resume_data?.name }'s Resume`,
+          text: `Check out ${resumeData?.resume_data?.Name || resumeData?.resume_data?.Name}'s professional resume`,
         })
         toast.success("Resume shared successfully!", {
           duration: 3000,
@@ -207,7 +215,7 @@ const Resume = () => {
                 <User className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                {resume?.name || resume?.Name || "Your Name"}
+                {resume?.Name || "Your Name"}
               </h1>
             </motion.div>
             <motion.p
@@ -232,7 +240,7 @@ const Resume = () => {
                   <div className="space-y-2">
                     <div className="flex items-center gap-3">
                       <FileText className="w-6 h-6 text-emerald-600" />
-                      <h2 className="text-2xl font-bold text-slate-800">{resume?.name || resume?.Name}'s Resume</h2>
+                      <h2 className="text-2xl font-bold text-slate-800">{ resume?.Name || resume?.name}'s Resume</h2>
                       <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-emerald-200">
                         Professional
                       </Badge>
@@ -315,13 +323,13 @@ const Resume = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <Card className="bg-white/60 backdrop-blur-sm border-0 shadow-lg">
                         <CardContent className="p-4 text-center">
-                          <div className="text-2xl font-bold text-emerald-600">{resume?.experience?.length || resume?.Experience?.length || 0}</div>
+                          <div className="text-2xl font-bold text-emerald-600">{ (resume?.Experience?.length || resume?.experience?.length ) || 0}</div>
                           <div className="text-sm text-slate-600">Work Experience</div>
                         </CardContent>
                       </Card>
                       <Card className="bg-white/60 backdrop-blur-sm border-0 shadow-lg">
                         <CardContent className="p-4 text-center">
-                          <div className="text-2xl font-bold text-teal-600">{resume?.projects?.length || resume?.Projects?.length || 0}</div>
+                          <div className="text-2xl font-bold text-teal-600">{ (resume?.Projects?.length || resume?.projects?.length) || 0}</div>
                           <div className="text-sm text-slate-600">Projects</div>
                         </CardContent>
                       </Card>
@@ -335,7 +343,7 @@ const Resume = () => {
                       </Card> */}
                       <Card className="bg-white/60 backdrop-blur-sm border-0 shadow-lg">
                         <CardContent className="p-4 text-center">
-                          <div className="text-2xl font-bold text-slate-600">{resume?.achievements?.length || resume?.Achievements?.length || 0}</div>
+                          <div className="text-2xl font-bold text-slate-600">{ (resume?.Achievements?.length ||resume?.achievements?.length)  || 0}</div>
                           <div className="text-sm text-slate-600">Achievements</div>
                         </CardContent>
                       </Card>
@@ -359,7 +367,7 @@ const Resume = () => {
                         </CardHeader>
                         <CardContent>
                           <div className="flex flex-wrap gap-2">
-                            {resume?.skills?.programmingLanguages?.map((lang: string, index: number) => (
+                            {(resume?.skills?.programmingLanguages || resume?.Skills?.programmingLanguages)?.map((lang: string, index: number) => (
                               <Badge key={index} variant="secondary" className="bg-emerald-100 text-emerald-700">
                                 {lang}
                               </Badge>
@@ -378,7 +386,7 @@ const Resume = () => {
                         </CardHeader>
                         <CardContent>
                           <div className="flex flex-wrap gap-2">
-                            {resume?.skills?.frameworksAndTools?.map((tool: string, index: number) => (
+                            {(resume?.skills?.frameworksAndTools || resume?.Skills?.frameworksAndTools)?.map((tool: string, index: number) => (
                               <Badge key={index} variant="outline" className="border-teal-200 text-teal-700">
                                 {tool}
                               </Badge>
@@ -397,7 +405,7 @@ const Resume = () => {
                         </CardHeader>
                         <CardContent>
                           <div className="flex flex-wrap gap-2">
-                            {resume?.skills?.databases?.map((db: string, index: number) => (
+                            {(resume?.skills?.databases || resume?.Skills?.databases)?.map((db: string, index: number) => (
                               <Badge key={index} variant="secondary" className="bg-cyan-100 text-cyan-700">
                                 {db}
                               </Badge>
@@ -416,7 +424,7 @@ const Resume = () => {
                         </CardHeader>
                         <CardContent>
                           <div className="flex flex-wrap gap-2">
-                            {resume?.skills?.areasOfInterest?.map((area: string, index: number) => (
+                            {(resume?.skills?.areasOfInterest || resume?.Skills?.areasOfInterest)?.map((area: string, index: number) => (
                               <Badge key={index} variant="outline" className="border-purple-200 text-purple-700">
                                 {area}
                               </Badge>
@@ -434,12 +442,12 @@ const Resume = () => {
                       transition={{ delay: 0.2 }}
                       className="space-y-6"
                     >
-                      {(resume?.experience || resume?.Experience)?.map((exp: any, index: number) => (
+                      {(resume?.experience || resume?.Experience)?.map((exp: ExperienceEntry, index: number) => (
                         <Card key={index} className="border-l-4 border-l-emerald-500">
                           <CardContent className="p-6">
                             <div className="flex justify-between items-start mb-4">
                               <div>
-                                <h3 className="text-xl font-semibold text-slate-800">{exp.role}</h3>
+                                <h3 className="text-xl font-semibold text-slate-800">{exp.title}</h3>
                                 <p className="text-emerald-600 font-medium">{exp.company}</p>
                               </div>
                               <Badge variant="outline" className="flex items-center gap-1">
@@ -468,7 +476,7 @@ const Resume = () => {
                       transition={{ delay: 0.2 }}
                       className="grid gap-6"
                     >
-                      {(resume?.projects || resume?.Projects)?.map((project: any, index: number) => (
+                      {(resume?.projects || resume?.Projects)?.map((project: ProjectEntry, index: number) => (
                         <Card key={index} className="border-l-4 border-l-teal-500">
                           <CardContent className="p-6">
                             <h3 className="text-xl font-semibold text-slate-800 mb-3">{project.name}</h3>
@@ -493,7 +501,7 @@ const Resume = () => {
                       transition={{ delay: 0.2 }}
                       className="space-y-6"
                     >
-                      {(resume?.education || resume?.Education)?.map((edu: any, index: number) => (
+                      {(resume?.education || resume?.Education)?.map((edu: EducationEntry, index: number) => (
                         <Card key={index} className="border-l-4 border-l-blue-500">
                           <CardContent className="p-6">
                             <div className="flex justify-between items-start mb-2">
@@ -509,13 +517,13 @@ const Resume = () => {
                                 {edu.duration}
                               </Badge>
                             </div>
-                            {(edu.gpa || edu.percentage) && (
+                            
                               <div className="mt-3">
                                 <Badge variant="secondary" className="bg-blue-100 text-blue-700">
-                                  {edu.gpa ? `GPA: ${edu.gpa}` : `Score: ${edu.percentage}`}
+                                  {edu.details}
                                 </Badge>
                               </div>
-                            )}
+                           
                           </CardContent>
                         </Card>
                       ))}
@@ -559,9 +567,9 @@ const Resume = () => {
                         </CardHeader>
                         <CardContent>
                           <div className="space-y-4">
-                            {(resume?.positionsOfResponsibility || resume?.["Positions of Responsibility"])?.map((position: any, index: number) => (
+                            {(resume?.PositionsOfResponsibility )?.map((position: ResponsibilityEntry, index: number) => (
                               <div key={index} className="border-l-2 border-purple-200 pl-4">
-                                <h4 className="font-semibold text-slate-800">{position.role || position?.title}</h4>
+                                <h4 className="font-semibold text-slate-800">{ position?.title}</h4>
                                 <p className="text-purple-600 text-sm">{position.organization || null}</p>
                                 <Badge variant="outline" className="mt-1 text-xs">
                                   {position.duration || position?.description}
@@ -649,4 +657,4 @@ const Resume = () => {
   )
 }
 
-export default Resume
+export default Resume_single

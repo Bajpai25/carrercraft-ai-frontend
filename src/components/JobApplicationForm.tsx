@@ -24,11 +24,32 @@ import {
 } from "lucide-react"
 import { CareerCraftLogo } from "./ui/careercraft-logo"
 import { useAuth } from "./auth-provider"
-import { Link } from "react-router-dom"
+
+
+export interface CoverLetterOutput {
+  id: string
+  fileUrl: string
+  data?: string
+  createdAt: string
+  userId: string
+  type: "cover_letter"
+}
+
+export interface ColdEmailOutput {
+  id: string
+  fileUrl?: string
+  data?: string
+  createdAt: string
+  userId: string
+  type: "cold_email"
+}
+
+export type GeneratedOutput = CoverLetterOutput | ColdEmailOutput
 
 interface JobApplicationFormProps {
-  onSubmit: (payload: any) => void
+  onSubmit: (payload: GeneratedOutput) => void
 }
+
 
 export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
   const {user} = useAuth()
@@ -43,8 +64,6 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
   const [dragActive, setDragActive] = useState(false)
 
 
-
- 
 
   const steps = [
     {
@@ -120,6 +139,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
         await uploadJob(jobDescription, jobSource, userId)
         setCurrentStep(currentStep + 1)
       } catch (err:unknown) {
+        console.log(err)
         alert("Failed to fetch job data")
       } finally {
         setLoading(false)
@@ -156,9 +176,11 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
         userId,
         templateType === "email" ? "cold_email" : "cover_letter",
       )
+      console.log("Generated output:", result)
       onSubmit(result)
       setIsDialogOpen(false)
-    } catch (err) {
+    } catch (err:unknown) {
+      console.log(err)
       alert("Failed to generate output")
     } finally {
       setLoading(false)
@@ -411,7 +433,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
       </motion.div>
 
       {/* Advanced Dialog */}
-      <Dialog className="max-h-auto overflow-y-auto" open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog  open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-4xl p-0 max-h-auto overflow-y-auto border-0 bg-transparent shadow-2xl">
           <AnimatePresence mode="wait">
             <motion.div
@@ -494,14 +516,14 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                     >
                       <div className="space-y-8">
                         <motion.div
-                          className="w-32 h-32 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-2xl"
+                          className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-2xl"
                           animate={{ rotate: [0, 360] }}
                           transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                         >
-                          <Sparkles className="w-16 h-16 text-white" />
+                          <Sparkles className="w-12 h-12 text-white" />
                         </motion.div>
-                        <div className="space-y-4">
-                          <h3 className="text-3xl font-bold text-gray-800">Ready to revolutionize your job search?</h3>
+                        <div className="space-y-2">
+                          <h3 className="text-2xl font-bold text-gray-800">Ready to revolutionize your job search?</h3>
                           <p className="text-gray-600 text-xl max-w-2xl mx-auto leading-relaxed">
                             Our advanced AI will analyze your resume, understand job requirements, and create
                             compelling, personalized content that makes you stand out from hundreds of other applicants.
@@ -652,14 +674,14 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -30 }}
-                      className="space-y-10"
+                      className="space-y-6"
                     >
-                      <div className="space-y-6">
+                      <div className="space-y-4">
                         <Label
                           htmlFor="job-link"
-                          className="text-2xl font-bold text-gray-800 flex items-center space-x-3"
+                          className="text-xl font-bold text-gray-800 flex items-center space-x-3"
                         >
-                          <Briefcase className="w-8 h-8 text-purple-500" />
+                          <Briefcase className="w-6 h-6 text-purple-500" />
                           <span>Job Posting URL</span>
                         </Label>
                         <motion.input
@@ -668,24 +690,24 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                           placeholder="https://jobs.greenhouse.io/company/role-id"
                           value={jobDescription}
                           onChange={(e) => setJobDescription(e.target.value)}
-                          className="w-full px-8 py-6 rounded-2xl border-3 border-gray-200 focus:border-purple-500 bg-white shadow-lg text-xl transition-all duration-300 focus:shadow-xl"
+                          className="w-full px-4 py-4 rounded-xl border-3 border-gray-200 focus:border-purple-500 bg-white shadow-lg text-xl transition-all duration-300 focus:shadow-xl"
                           whileFocus={{ scale: 1.02 }}
                         />
                       </div>
 
-                      <div className="space-y-6">
+                      <div className="space-y-4">
                         <Label
                           htmlFor="job-source"
-                          className="text-2xl font-bold text-gray-800 flex items-center space-x-3"
+                          className="text-xl font-bold text-gray-800 flex items-center space-x-3"
                         >
-                          <Target className="w-8 h-8 text-purple-500" />
+                          <Target className="w-6 h-6 text-purple-500" />
                           <span>Job Source Platform</span>
                         </Label>
                         <motion.select
                           id="job-source"
                           value={jobSource}
                           onChange={(e) => setJobSource(e.target.value)}
-                          className="w-full px-8 py-6 rounded-2xl border-3 border-gray-200 focus:border-purple-500 bg-white shadow-lg text-xl transition-all duration-300 focus:shadow-xl"
+                          className="w-full px-4 py-4 rounded-xl border-3 border-gray-200 focus:border-purple-500 bg-white shadow-lg text-xl transition-all duration-300 focus:shadow-xl"
                           whileFocus={{ scale: 1.02 }}
                         >
                           <option value="greenhouse">🌱 Greenhouse</option>
@@ -724,16 +746,16 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -30 }}
-                      className="space-y-10"
+                      className="space-y-6"
                     >
-                      <div className="text-center space-y-4">
-                        <h3 className="text-2xl font-bold text-gray-800">What would you like to generate?</h3>
+                      <div className="text-center space-y-2">
+                        <h3 className="text-xl font-bold text-gray-800">What would you like to generate?</h3>
                         <p className="text-gray-600 text-lg">Choose the type of content our AI will create for you</p>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <motion.div
-                          className={`p-6  rounded-3xl border-4 cursor-pointer transition-all duration-500 ${
+                          className={`p-4  rounded-2xl border-4 cursor-pointer transition-all duration-500 ${
                             templateType === "cover-letter"
                               ? "border-blue-500 bg-blue-50 shadow-2xl scale-105"
                               : "border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-xl"
@@ -742,7 +764,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                           whileHover={{ scale: 1.05, y: -5 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <div className="text-center space-y-6">
+                          <div className="text-center space-y-4">
                             <motion.div
                               className="w-20 h-20 mx-auto rounded-full bg-blue-500 flex items-center justify-center shadow-xl"
                               animate={templateType === "cover-letter" ? { rotate: [0, 360] } : {}}
@@ -751,7 +773,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                               <FileText className="w-10 h-10 text-white" />
                             </motion.div>
                             <div className="space-y-3">
-                              <h3 className="text-2xl font-bold text-gray-800">Cover Letter</h3>
+                              <h3 className="text-xl font-bold text-gray-800">Cover Letter</h3>
                               <p className="text-gray-600 leading-relaxed text-lg">
                                 Professional cover letter tailored to the specific job requirements, highlighting your
                                 relevant experience and achievements
@@ -771,7 +793,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                         </motion.div>
 
                         <motion.div
-                          className={`p-6 rounded-3xl border-4 cursor-pointer transition-all duration-500 ${
+                          className={`p-4 rounded-2xl border-4 cursor-pointer transition-all duration-500 ${
                             templateType === "email"
                               ? "border-purple-500 bg-purple-50 shadow-2xl scale-105"
                               : "border-gray-200 hover:border-purple-300 hover:bg-purple-50/50 hover:shadow-xl"
@@ -780,7 +802,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                           whileHover={{ scale: 1.05, y: -5 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <div className="text-center space-y-6">
+                          <div className="text-center space-y-4">
                             <motion.div
                               className="w-20 h-20 mx-auto rounded-full bg-purple-500 flex items-center justify-center shadow-xl"
                               animate={templateType === "email" ? { rotate: [0, 360] } : {}}
@@ -789,7 +811,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                               <Briefcase className="w-10 h-10 text-white" />
                             </motion.div>
                             <div className="space-y-3">
-                              <h3 className="text-2xl font-bold text-gray-800">Cold Email</h3>
+                              <h3 className="text-xl font-bold text-gray-800">Cold Email</h3>
                               <p className="text-gray-600 leading-relaxed text-lg">
                                 Professional email for networking, direct outreach to hiring managers, or follow-ups
                                 that get responses

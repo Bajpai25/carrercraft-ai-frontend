@@ -8,12 +8,19 @@ import { Button } from "../components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "../components/ui/card"
 import { Skeleton } from "../components/ui/skeleton"
 import { Share2, Copy, ExternalLink, Loader2, Download, Printer } from "lucide-react"
+import type {ColdEmail} from "../pages/Dashboard"
+
+
+interface GetColdEmailByIdResponse {
+  getColdEmailById: ColdEmail
+}
+
 
 
 const Email = () => {
 
   const { id } = useParams<{ id: string }>()
-  const [emailData, setEmailData] = useState<any>(null)
+  const [emailData, setEmailData] = useState<ColdEmail | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -23,10 +30,10 @@ const Email = () => {
     fetchEmailData()
   }, [])
 
-  const fetchEmailData = async () => {
+  const fetchEmailData = async (): Promise<void>=> {
       try {
         setLoading(true)
-        const data = await client.request(getColdEmailById, { id })
+        const data:GetColdEmailByIdResponse = await client.request(getColdEmailById, { id })
         console.log(data)
         console.log("Fetched email data:", data.getColdEmailById)
 setEmailData(data.getColdEmailById)
@@ -43,26 +50,26 @@ setEmailData(data.getColdEmailById)
 
   const handleCopy = () => {
     if (emailData) {
-      navigator.clipboard.writeText(emailData.data)
+      navigator.clipboard.writeText(emailData.data || "")
       setCopied(true)
       toast.success("Email copied to clipboard!")
       setTimeout(() => setCopied(false), 2000)
     }
   }
 
-  const handleDownload = () => {
-    if (emailData) {
-      const blob = new Blob([emailData.data], { type: "text/plain" })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `email-${id}.txt`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-    }
-  }
+  // const handleDownload = () => {
+  //   if (emailData) {
+  //     const blob = new Blob([emailData.data], { type: "text/plain" })
+  //     const url = URL.createObjectURL(blob)
+  //     const a = document.createElement("a")
+  //     a.href = url
+  //     a.download = `email-${id}.txt`
+  //     document.body.appendChild(a)
+  //     a.click()
+  //     document.body.removeChild(a)
+  //     URL.revokeObjectURL(url)
+  //   }
+  // }
 
   const handlePrint = () => {
     if (emailData) {

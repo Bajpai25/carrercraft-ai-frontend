@@ -1,8 +1,6 @@
-"use client"
-
 import { useState } from "react"
 import { JobApplicationForm } from "../components/JobApplicationForm"
-import { ResultsDisplay } from "../components/ResultsDisplay"
+// import { ResultsDisplay } from "../components/ResultsDisplay"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 import { Button } from "../components/ui/button"
