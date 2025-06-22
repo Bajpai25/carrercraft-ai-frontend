@@ -13,6 +13,7 @@ import CoverLetter from "./pages/Cover_letter"
 import Email from "./pages/Email"
 import Resume from "./pages/Resume"
 import { ProtectedRoute } from "./pages/ProtectedRoute"
+import Ats from "./pages/Ats"
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
               <Route path="/cover_letter/:id" element={<ProtectedRoute><CoverLetter /></ProtectedRoute>} />
               <Route path="/email/:id" element={<ProtectedRoute><Email /></ProtectedRoute>} />
               <Route path="/resume/:id" element={<ProtectedRoute><Resume /></ProtectedRoute>} />
+              <Route path="/ats"  element={<ProtectedRoute><Ats/></ProtectedRoute>}/>
             </Routes>
           </Layout>
         </Router>

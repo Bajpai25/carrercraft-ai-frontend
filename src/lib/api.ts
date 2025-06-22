@@ -165,6 +165,21 @@ export async function uploadAndParseResume(file: File, userId: string) {
   return res;
 }
 
+export const generateATS = `
+  mutation GenerateATS($resumeId: String!, $userId: String!) {
+  runATSAnalysis(resumeId:$resumeId, userId: $userId) {
+     id
+     score
+     missingSkills
+     Issues
+     atsResultData
+     suggestions
+     userId
+     resumeId
+  }
+}
+  `
+
 export async function uploadJob(url: string, type: string, userId: string) {
   const query = `
     mutation UploadJob($url: String!, $userId: String!, $type: String!) {

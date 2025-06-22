@@ -30,6 +30,7 @@ export function Layout({ children, className, ...props }: LayoutProps) {
     { path: "/", label: "Home", icon: Home },
     { path: "/cover-letters", label: "Cover Letters", icon: FileText },
     { path: "/email-templates", label: "Email Templates", icon: Mail },
+    {path:"/ats" , label:"ATS",icon:Settings}
   ]
 
   const getUserInitials = (name?: string) => {

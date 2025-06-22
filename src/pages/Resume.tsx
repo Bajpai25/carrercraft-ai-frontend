@@ -487,6 +487,9 @@ const Resume_single = () => {
                                   {tech}
                                 </Badge>
                               ))}
+                               {/* <Badge  variant="secondary" className="bg-teal-100 text-teal-700">
+                                  {project?.technologies}
+                                </Badge> */}
                             </div>
                           </CardContent>
                         </Card>

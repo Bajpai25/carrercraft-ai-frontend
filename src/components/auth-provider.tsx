@@ -135,6 +135,7 @@ const register = async (
     localStorage.removeItem("userId")
     localStorage.removeItem("jobId")
     localStorage.removeItem("resumeId")
+    localStorage.removeItem("cover_letterId")
   }
 
   return <AuthContext.Provider value={{ user, login, register, logout, isLoading }}>{children}</AuthContext.Provider>

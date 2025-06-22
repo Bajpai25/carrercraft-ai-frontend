@@ -9,95 +9,139 @@ import { Link } from "react-router-dom"
 
 export function EmailTemplates() {
   const templates = [
-    {
-      id: 1,
-      title: "Follow-up After Interview",
-      description: "Professional follow-up email to send after your interview",
-      category: "Follow-up",
-      timing: "24-48 hours",
-      preview:
-        "Subject: Thank you for the interview - [Your Name]\n\nDear [Interviewer Name],\n\nThank you for taking the time to meet with me yesterday to discuss the [Position Title] role at [Company Name]. I enjoyed our conversation about...",
-      tags: ["Interview", "Thank You", "Professional"],
-      color: "blue",
-    },
-    {
-      id: 2,
-      title: "Networking Introduction",
-      description: "Perfect for reaching out to new professional connections",
-      category: "Networking",
-      timing: "Anytime",
-      preview:
-        "Subject: Introduction from [Mutual Connection]\n\nHi [Name],\n\n[Mutual Connection] suggested I reach out to you. I'm currently [your role/situation] and would love to learn more about your experience in...",
-      tags: ["Networking", "Introduction", "Connection"],
-      color: "purple",
-    },
-    {
-      id: 3,
-      title: "Job Application Follow-up",
-      description: "Follow up on your job application status professionally",
-      category: "Follow-up",
-      timing: "1-2 weeks",
-      preview:
-        "Subject: Following up on [Position Title] Application\n\nDear Hiring Manager,\n\nI hope this email finds you well. I wanted to follow up on my application for the [Position Title] position that I submitted on [Date]...",
-      tags: ["Application", "Status Check", "Professional"],
-      color: "green",
-    },
-    {
-      id: 4,
-      title: "LinkedIn Connection Request",
-      description: "Personalized message for LinkedIn connection requests",
-      category: "Social Media",
-      timing: "Anytime",
-      preview:
-        "Hi [Name],\n\nI came across your profile and was impressed by your work in [specific area]. I'm currently [your situation] and would love to connect and learn from your experience in [industry/field]...",
-      tags: ["LinkedIn", "Connection", "Social"],
-      color: "pink",
-    },
-    {
-      id: 5,
-      title: "Informational Interview Request",
-      description: "Request an informational interview with industry professionals",
-      category: "Networking",
-      timing: "Anytime",
-      preview:
-        "Subject: Request for Informational Interview\n\nDear [Name],\n\nI hope this email finds you well. I'm currently exploring opportunities in [industry/field] and would greatly appreciate the chance to learn from your expertise...",
-      tags: ["Informational", "Interview", "Learning"],
-      color: "orange",
-    },
-    {
-      id: 6,
-      title: "Salary Negotiation",
-      description: "Professional approach to salary and benefits negotiation",
-      category: "Negotiation",
-      timing: "After offer",
-      preview:
-        "Subject: [Position Title] Offer Discussion\n\nDear [Hiring Manager],\n\nThank you for extending the offer for the [Position Title] role. I'm excited about the opportunity to join [Company Name] and contribute to...",
-      tags: ["Negotiation", "Salary", "Benefits"],
-      color: "indigo",
-    },
-    {
-      id: 7,
-      title: "Rejection Response",
-      description: "Graceful response to job rejection while keeping doors open",
-      category: "Response",
-      timing: "Within 24 hours",
-      preview:
-        "Subject: Thank you for the opportunity\n\nDear [Hiring Manager],\n\nThank you for informing me about your decision regarding the [Position Title] role. While I'm disappointed, I understand that you had many qualified candidates...",
-      tags: ["Rejection", "Professional", "Future"],
-      color: "gray",
-    },
-    {
-      id: 8,
-      title: "Referral Request",
-      description: "Ask for referrals from your professional network",
-      category: "Networking",
-      timing: "Anytime",
-      preview:
-        "Subject: Seeking Your Advice and Potential Referral\n\nHi [Name],\n\nI hope you're doing well! I'm currently exploring new opportunities in [field/industry] and wondered if you might know of any openings that would be a good fit...",
-      tags: ["Referral", "Network", "Opportunity"],
-      color: "teal",
-    },
-  ]
+  {
+    id: 1,
+    title: "Cold Outreach for Job Opportunity",
+    description: "Reach out directly to a company about open roles",
+    category: "Outreach",
+    timing: "Anytime",
+    preview:
+      "Subject: Exploring Opportunities at [Company Name]\n\nDear [Hiring Manager],\n\nI’m reaching out to express my interest in potential roles at [Company Name]. With a background in [skillset], I’d love to contribute to your mission and explore how I can add value to your team...",
+    tags: ["Outreach", "Interest", "Initiative"],
+    color: "blue",
+  },
+  {
+    id: 2,
+    title: "Thank You After Job Offer",
+    description: "Show appreciation for a job offer",
+    category: "Gratitude",
+    timing: "Same day",
+    preview:
+      "Subject: Grateful for the Offer\n\nDear [Hiring Manager],\n\nThank you so much for the offer for the [Position Title] role. I truly appreciate the opportunity and the confidence you’ve shown in me...",
+    tags: ["Gratitude", "Offer", "Professional"],
+    color: "green",
+  },
+  {
+    id: 3,
+    title: "Intro Email to a Recruiter",
+    description: "Initiate a conversation with a recruiter",
+    category: "Recruitment",
+    timing: "Anytime",
+    preview:
+      "Subject: Introduction – [Your Name]\n\nHi [Recruiter’s Name],\n\nI came across your profile and wanted to introduce myself. I'm currently exploring roles in [industry] and would appreciate any insights you may have...",
+    tags: ["Recruiter", "Introduction", "Networking"],
+    color: "purple",
+  },
+  {
+    id: 4,
+    title: "Follow-up After Networking Event",
+    description: "Reconnect with someone you met professionally",
+    category: "Follow-up",
+    timing: "24-48 hours",
+    preview:
+      "Subject: Great Connecting at [Event Name]\n\nHi [Name],\n\nIt was a pleasure meeting you at [Event]. I enjoyed learning about your work and would love to continue our conversation...",
+    tags: ["Event", "Follow-up", "Professional"],
+    color: "indigo",
+  },
+  {
+    id: 5,
+    title: "Internal Referral Request",
+    description: "Ask a connection inside a company for a referral",
+    category: "Referral",
+    timing: "Before applying",
+    preview:
+      "Subject: Referral for [Position Title] at [Company Name]\n\nHi [Name],\n\nI saw that [Company Name] is hiring for a [Position Title]. Since you work there, I was wondering if you’d be open to referring me or offering advice...",
+    tags: ["Internal", "Referral", "Hiring"],
+    color: "orange",
+  },
+  {
+    id: 6,
+    title: "Career Update Announcement",
+    description: "Inform your network about a new role or change",
+    category: "Update",
+    timing: "After joining",
+    preview:
+      "Subject: Exciting Career Update\n\nHi [Name],\n\nI wanted to share that I’ve recently joined [Company Name] as a [New Role]. I’m excited about this new chapter and would love to stay in touch...",
+    tags: ["Update", "Announcement", "Network"],
+    color: "cyan",
+  },
+  {
+    id: 7,
+    title: "Interview Scheduling Confirmation",
+    description: "Confirm your availability for an interview",
+    category: "Scheduling",
+    timing: "Immediately",
+    preview:
+      "Subject: Interview Confirmation – [Your Name]\n\nDear [Recruiter Name],\n\nThank you for scheduling the interview for [Position Title]. I’m confirming our meeting on [Date] at [Time]...",
+    tags: ["Interview", "Schedule", "Confirm"],
+    color: "lime",
+  },
+  {
+    id: 8,
+    title: "Rejection Response Email",
+    description: "Respond gracefully to a job rejection",
+    category: "Rejection",
+    timing: "Within 1 day",
+    preview:
+      "Subject: Thank You for the Opportunity\n\nDear [Hiring Manager],\n\nI appreciate your message regarding the [Position Title] role. While I'm disappointed, I’m grateful for the chance to connect and learn more about your team...",
+    tags: ["Rejection", "Professional", "Future"],
+    color: "gray",
+  },
+  {
+    id: 9,
+    title: "Job Offer Negotiation Email",
+    description: "Negotiate salary, benefits or terms professionally",
+    category: "Negotiation",
+    timing: "After offer",
+    preview:
+      "Subject: [Position Title] Offer Discussion\n\nDear [Hiring Manager],\n\nThank you again for the offer. Before making a final decision, I’d love to discuss a few aspects of the offer regarding compensation and growth opportunities...",
+    tags: ["Negotiation", "Salary", "Offer"],
+    color: "red",
+  },
+  {
+    id: 10,
+    title: "Informational Interview Request",
+    description: "Ask someone for a quick career chat",
+    category: "Networking",
+    timing: "Anytime",
+    preview:
+      "Subject: Informational Interview Request\n\nHi [Name],\n\nI hope you're doing well! I admire your work at [Company] and would love to hear more about your journey and role. Would you be open to a 15-minute chat sometime this week or next?",
+    tags: ["Informational", "Networking", "Learning"],
+    color: "teal",
+  },
+  {
+    id: 11,
+    title: "Post-Interview Thank You (Team)",
+    description: "Thank an entire panel/team after an interview",
+    category: "Follow-up",
+    timing: "Same day or next",
+    preview:
+      "Subject: Thank You for the Interview\n\nDear [Team Name],\n\nThank you for the opportunity to speak with your team about the [Position Title] role. I enjoyed learning about the team’s work and your vision for the future...",
+    tags: ["Thank You", "Panel", "Follow-up"],
+    color: "violet",
+  },
+  {
+    id: 12,
+    title: "Withdrawal of Application",
+    description: "Politely withdraw your candidacy from a role",
+    category: "Withdrawal",
+    timing: "ASAP",
+    preview:
+      "Subject: Withdrawal from Application – [Your Name]\n\nDear [Hiring Manager],\n\nThank you again for considering me for the [Position Title] role. After careful consideration, I’ve decided to withdraw my application due to [brief reason, optional]...",
+    tags: ["Withdraw", "Application", "Polite"],
+    color: "rose",
+  },
+]
 
   const containerVariants = {
     hidden: { opacity: 0 },
