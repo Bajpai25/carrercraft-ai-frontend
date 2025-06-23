@@ -3,7 +3,8 @@
 
 import { GraphQLClient, gql } from "graphql-request"
 
-export const client = new GraphQLClient("http://localhost:8000/graphql") // your GraphQL endpoint
+export const client = new GraphQLClient("https://carrercraft-ai-backend.onrender.com/graphql") // your GraphQL endpoint
+// export const client = new GraphQLClient("http://localhost:8000/graphql") // your GraphQL endpoint
 
 // graphql query 
 
@@ -156,7 +157,7 @@ export async function uploadAndParseResume(file: File, userId: string) {
   formData.append("file", file);
   formData.append("userId", userId);
 
-  const res = await fetch("http://localhost:8000/upload-parse-resume", {
+  const res = await fetch(`https://carrercraft-ai-backend.onrender.com/upload-parse-resume`, {
     method: "POST",
     body: formData,
   });
@@ -191,7 +192,7 @@ export async function uploadJob(url: string, type: string, userId: string) {
     }
   `;
 
-  const res = await fetch("http://localhost:8000/graphql", {
+  const res = await fetch(`https://carrercraft-ai-backend.onrender.com/graphql`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables: { url, userId, type } }),
@@ -208,7 +209,7 @@ export async function generateFinalOutput(
   userId: string,
   type: "cover_letter" | "cold_email"
 ) {
-  const res = await fetch(`http://localhost:8000/${type}`, {
+  const res = await fetch(`https://carrercraft-ai-backend.onrender.com/${type}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ resumeId, jobId, userId }),

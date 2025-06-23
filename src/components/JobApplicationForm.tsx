@@ -1,6 +1,6 @@
 
 import type React from "react"
-import {  useEffect, useState } from "react"
+import {  useState } from "react"
 import { uploadAndParseResume, uploadJob, generateFinalOutput } from "../lib/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./ui/button"
@@ -24,8 +24,6 @@ import {
 } from "lucide-react"
 import { CareerCraftLogo } from "./ui/careercraft-logo"
 import { useAuth } from "./auth-provider"
-import { templates } from "../pages/CoverLetterTemplates"
-import {  useNavigate, useSearchParams } from "react-router-dom"
 
 
 export interface CoverLetterOutput {
@@ -46,17 +44,6 @@ export interface ColdEmailOutput {
   type: "cold_email"
 }
 
-export interface Template{
-    id:number
-    title:string
-    description: string
-    category:string
-    difficulty: string
-    preview: string
-    tags:string[]
-    color:string
-}
-
 export type GeneratedOutput = CoverLetterOutput | ColdEmailOutput
 
 interface JobApplicationFormProps {
@@ -65,8 +52,6 @@ interface JobApplicationFormProps {
 
 
 export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
-  const [searchParams] = useSearchParams()
-  const navigate=useNavigate();
   const {user} = useAuth()
   const [resume, setResume] = useState<File | null>(null)
   const [jobDescription, setJobDescription] = useState("")
@@ -77,23 +62,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
   const [loading, setLoading] = useState(false)
   const [loadingStep, setLoadingStep] = useState("")
   const [dragActive, setDragActive] = useState(false)
-  const [selectedTemplate, setSelectedTemplate] = useState< Template| null>(null)
 
-useEffect(() => {
-  if (templateType !== "cover-letter") return
-  const templateIdFromURL = searchParams.get("templateId") || null
-  const templateTypeFromURL = searchParams.get("templateType") || null
-
-  if (templateIdFromURL && templateTypeFromURL === "cover-letter") {
-    setIsDialogOpen(true)
-    setCurrentStep(4)
-
-    const foundTemplate = templates.find(
-      (template) => template.id === parseInt(templateIdFromURL)
-    )
-    if (foundTemplate) setSelectedTemplate(foundTemplate)
-  }
-}, [templateType])
 
 
   const steps = [
@@ -178,24 +147,14 @@ useEffect(() => {
       }
     } else if (currentStep === 3 && templateType) {
       setCurrentStep(currentStep + 1)
-    }
-    else if (currentStep === 4) {
-  setCurrentStep(currentStep + 1) // to generation step
-}
- else {
+    } else {
       setCurrentStep(currentStep + 1)
     }
   }
 
   const handleFinalSubmit = async () => {
-    // if(templateType==='cover-letter'){
-    //   navigate("/cover-letters")
-    // }
-    // else{
-    //   navigate("/email-templates")
-    // }
     setLoading(true)
-    setCurrentStep(5) // Move to generation step
+    setCurrentStep(4) // Move to generation step
 
     // Simulate the loading steps animation
     for (let i = 0; i < loadingSteps.length; i++) {
@@ -801,10 +760,7 @@ useEffect(() => {
                               ? "border-blue-500 bg-blue-50 shadow-2xl scale-105"
                               : "border-gray-200 hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-xl"
                           }`}
-                          onClick={() => {
-  setTemplateType("cover-letter");
-  navigate("/cover-letters");
-}}
+                          onClick={() => setTemplateType("cover-letter")}
                           whileHover={{ scale: 1.05, y: -5 }}
                           whileTap={{ scale: 0.95 }}
                         >
@@ -842,7 +798,7 @@ useEffect(() => {
                               ? "border-purple-500 bg-purple-50 shadow-2xl scale-105"
                               : "border-gray-200 hover:border-purple-300 hover:bg-purple-50/50 hover:shadow-xl"
                           }`}
-                          onClick={() => {setTemplateType("email"); navigate("/email-templates")}}
+                          onClick={() => setTemplateType("email")}
                           whileHover={{ scale: 1.05, y: -5 }}
                           whileTap={{ scale: 0.95 }}
                         >
@@ -876,49 +832,9 @@ useEffect(() => {
                       </div>
                     </motion.div>
                   )}
-        {currentStep === 4 && templateType === "cover-letter" && (
-  <motion.div
-    key="template-selection"
-    initial={{ opacity: 0, y: 30 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -30 }}
-    className="space-y-6"
-  >
-    <h3 className="text-xl font-bold text-center text-gray-800">
-      Select a Cover Letter Template (Optional)
-    </h3>
-    <div className="grid md:grid-cols-2 gap-4">
-      {templates.map((template) => (
-        <div
-          key={template.id}
-          className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
-            selectedTemplate?.id === template.id
-              ? "border-blue-500 bg-blue-50 shadow-xl"
-              : "border-gray-200 hover:border-blue-300 hover:bg-blue-50"
-          }`}
-          onClick={() => setSelectedTemplate(template)}
-        >
-          <div className="flex justify-between items-center mb-2">
-            <h4 className="font-bold text-blue-800">{template.title}</h4>
-            <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
-              {template.difficulty}
-            </span>
-          </div>
-          <p className="text-sm text-gray-600 line-clamp-2">{template.preview}</p>
-        </div>
-      ))}
-    </div>
-
-    <div className="text-center">
-      <Button onClick={() => setCurrentStep(5)}>
-        Skip & Continue
-      </Button>
-    </div>
-  </motion.div>
-)}
 
                   {/* Generation Step */}
-                  {currentStep === 5 && (
+                  {currentStep === 4 && (
                     <motion.div
                       key="generate"
                       initial={{ opacity: 0, y: 30 }}
@@ -1065,7 +981,7 @@ useEffect(() => {
                           className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold px-10 py-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 group"
                         >
                           <Zap className="w-6 h-6 mr-3 group-hover:animate-pulse" />
-                          Choose the template
+                          Generate with AI
                           <Rocket className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
                         </Button>
                       )}
@@ -1080,5 +996,6 @@ useEffect(() => {
     </div>
   )
 }
+
 
 

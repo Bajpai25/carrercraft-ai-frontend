@@ -434,7 +434,7 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Applications</p>
-                <p className="text-3xl font-bold text-orange-700 dark:text-orange-300">{(resumes?.length + coverLettersList.length + coldEmails.length-1 ) || 0}</p>
+                <p className="text-3xl font-bold text-orange-700 dark:text-orange-300">{(resumes?.length + coverLettersList.length + coldEmails.length) || 0}</p>
                 <p className="text-xs text-orange-600 dark:text-orange-400">This month</p>
               </div>
               <TrendingUp className="w-8 h-8 text-orange-500" />
