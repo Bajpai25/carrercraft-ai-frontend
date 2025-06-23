@@ -4,7 +4,7 @@ import type React from "react"
 import { createContext, useContext, useEffect, useState } from "react"
 import { GraphQLClient, gql } from "graphql-request"
 
-const client = new GraphQLClient("https://carrercraft-ai-backend.onrender.com/graphql") // your GraphQL endpoint
+const client = new GraphQLClient("https://carrercraft-ai-backend-1.onrender.com/graphql") // your GraphQL endpoint
 // const client = new GraphQLClient("http://localhost:8000/graphql") // your GraphQL endpoint
 
 type User = {
