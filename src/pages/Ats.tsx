@@ -7,6 +7,7 @@ import { Badge } from "../components/ui/badge";
 import { Separator } from "../components/ui/separator";
 import { generateATS, client } from "../lib/api";
 import ResumeUploadDialog from "../components/ResumeUploadDialog";
+import { useNavigate } from "react-router-dom";
 
 interface RunATSOutput {
   id: string;
@@ -33,6 +34,8 @@ const Ats = () => {
   const [atsData, setAtsData] = useState<RunATSOutput | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [resumeUploaded, setResumeUploaded] = useState(false);
+  const [showDialog, setShowDialog] = useState(true);
+  const navigate=useNavigate()
 
   // useEffect(() => {
   //   const fetchAtsData = async () => {
@@ -80,14 +83,19 @@ useEffect(() => {
 
   const score = atsData?.score ?? 0;
 
-   if (!resumeUploaded) {
-    return (
-      <ResumeUploadDialog
-        isOpen={!resumeUploaded}
-        onFinish={() => setResumeUploaded(true)}
-      />
-    );
-  }
+   if (!resumeUploaded && showDialog) {
+  return (
+    <ResumeUploadDialog
+      isOpen={showDialog}
+      onFinish={() => {
+        setResumeUploaded(true);
+        // setShowDialog(false); 
+      }}
+      onClose={() => {setShowDialog(false) ;
+        navigate("/")}} 
+    />
+  );
+}
 
   if (loading) {
     return (

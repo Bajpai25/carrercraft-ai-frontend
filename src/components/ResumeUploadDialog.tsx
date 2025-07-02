@@ -8,9 +8,10 @@ import { uploadAndParseResume } from "../lib/api";
 interface Props {
   isOpen: boolean;
   onFinish: () => void;
+  onClose: () => void;
 }
 
-const ResumeUploadDialog: React.FC<Props> = ({ isOpen, onFinish }) => {
+const ResumeUploadDialog: React.FC<Props> = ({ isOpen, onFinish , onClose }) => {
   const [resume, setResume] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -35,8 +36,14 @@ const ResumeUploadDialog: React.FC<Props> = ({ isOpen, onFinish }) => {
   };
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-xl border-0 shadow-2xl rounded-3xl bg-gradient-to-br from-white to-slate-50 px-10 py-8">
+        {/* <button
+    onClick={onClose} // or use a separate onClose handler if you want
+    className="relative top-4 right-4 text-gray-400 hover:text-gray-600 transition"
+  >
+    ✕
+  </button> */}
         <AnimatePresence>
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
