@@ -26,6 +26,7 @@ import { CareerCraftLogo } from "./ui/careercraft-logo"
 import { useAuth } from "./auth-provider"
 
 
+
 export interface CoverLetterOutput {
   id: string
   fileUrl: string
@@ -63,7 +64,16 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
   const [loadingStep, setLoadingStep] = useState("")
   const [dragActive, setDragActive] = useState(false)
 
+const [resumeId, setResumeId] = useState('');
 
+const handleResumeIdSubmit = () => {
+  if (!resumeId.trim()) return;
+  // 👉 Do your logic here: fetch resume by ID, validate, etc.
+  console.log("Submitted Resume ID:", resumeId);
+  localStorage.setItem("resumeId",resumeId);
+   setCurrentStep(currentStep + 1)
+  // Example: setResume({...}) or go to next step
+};
 
   const steps = [
     {
@@ -561,7 +571,7 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -30 }}
-                      className="space-y-8"
+                      className="space-y-4"
                     >
                       <div className="relative">
                         <input
@@ -596,16 +606,16 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8 }}
-                                className="space-y-8"
+                                className="space-y-2"
                               >
                                 <motion.div
-                                  className="w-24 h-24 mx-auto rounded-full bg-emerald-500 flex items-center justify-center shadow-xl"
+                                  className="w-16 h-16 mx-auto rounded-full bg-emerald-500 flex items-center justify-center shadow-xl"
                                   animate={{ scale: [1, 1.1, 1] }}
                                   transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
                                 >
-                                  <CheckCircle className="w-12 h-12 text-white" />
+                                  <CheckCircle className="w-8 h-8 text-white" />
                                 </motion.div>
-                                <div className="space-y-3">
+                                <div className="space-y-2">
                                   <p className="text-2xl font-bold text-emerald-700">{resume.name}</p>
                                   <p className="text-emerald-600 text-lg">
                                     {(resume.size / 1024 / 1024).toFixed(2)} MB • Ready for AI analysis
@@ -641,10 +651,10 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                                     ease: "easeInOut",
                                   }}
                                 >
-                                  <Upload className="mx-auto h-24 w-24 text-emerald-500" />
+                                  <Upload className="mx-auto h-16 w-16 text-emerald-500" />
                                 </motion.div>
-                                <div className="space-y-4">
-                                  <p className="text-3xl font-bold text-gray-800">
+                                <div className="space-y-2">
+                                  <p className="text-xl font-bold text-gray-800">
                                     Drop your resume here or click to browse
                                   </p>
                                   <p className="text-gray-600 text-lg">Supports PDF, DOC, DOCX • Maximum 10MB</p>
@@ -663,8 +673,58 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
                             )}
                           </AnimatePresence>
                         </motion.div>
+                        
                       </div>
+                      {/* Divider */}
+{/* <div className="flex items-center justify-center space-x-4 ">
+  <div className="h-px flex-1 bg-gray-300"></div>
+  <span className="text-gray-500 font-medium">OR</span>
+  <div className="h-px flex-1 bg-gray-300"></div>
+</div> */}
+
+{/* Resume ID input */}
+<motion.div
+  initial={{ opacity: 0, y: 5 }}
+  animate={{ opacity: 1, y: 5 }}
+  className="flex flex-col items-center space-y-1"
+>
+  <label htmlFor="resumeId" className="text-lg font-semibold text-gray-700">
+    Enter your Resume ID
+  </label>
+  <div className="relative w-full max-w-md">
+    <input
+      type="text"
+      id="resumeId"
+      placeholder="e.g. 123e4567-e89b-12d3-a456-426614174000"
+      value={resumeId}
+      onChange={(e) => setResumeId(e.target.value)}
+      className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 shadow-sm text-gray-800 transition"
+    />
+    {resumeId && (
+      <button
+        type="button"
+        onClick={() => setResumeId('')}
+        className="absolute right-3 top-1/4 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+      >
+        ✕
+      </button>
+    )}
+    {resumeId && (
+      <div className="flex justify-center items-center py-2">
+ <button
+        type="button"
+        onClick={handleResumeIdSubmit}
+        className="bg-gradient-to-r text-lg from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold px-2 mt-2 w-1/2 py-2 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 group"
+      >
+        Submit
+      </button>
+      </div>
+    )}
+   
+  </div>
+</motion.div>
                     </motion.div>
+                    
                   )}
 
                   {/* Job Details Step */}

@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent,  CardHeader, CardTitle } from "../components/ui/card"
@@ -15,10 +13,12 @@ import {
   Zap,
   Eye,
   Plus,
+  Clipboard
 } from "lucide-react"
 import { useAuth } from "../components/auth-provider"
 import { Link, useNavigate } from "react-router-dom"
 import {client  , GET_JOBS_BY_USER_ID , GET_RESUME_BY_USER_ID  , Get_cover_letter_by_userId ,  GET_COLD_EMAIL_BY_USERID   } from "../lib/api"
+import toast , {Toaster} from "react-hot-toast"
 
 export interface Resume {
   id: string
@@ -533,44 +533,45 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {resumes.map((resume) => (
-                <Card
-                  key={resume.id}
-                  className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
-                >
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <FileText className="w-8 h-8 text-blue-500" />
-                      {/* <Badge className={getStatusColor(resume.status)}>{resume.status}</Badge> */}
-                    </div>
-                    <CardTitle className="text-lg">{(resume?.resume_data?.Name || resume?.resume_data?.name)}</CardTitle>
-                    {/* <CardDescription>Last modified: {resume.lastModified}</CardDescription> */}
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      {/* <span className="text-sm font-medium">AI Score</span> */}
-                      {/* <span className={`text-lg font-bold ${getAIScoreColor(resume.aiScore)}`}>{resume.aiScore}%</span> */}
-                    </div>
-                    <div className="flex space-x-2">
-                      <Link to={`/resume/${resume.id}`}>
-                      <Button size="sm" variant="outline" className="flex-1">
-                        <Eye className="w-4 h-4 mr-1" />
-                        View
-                      </Button>
-                      </Link>
-                      {/* <Button size="sm" variant="outline" className="flex-1">
-                        <Edit3 className="w-4 h-4 mr-1" />
-                        Edit
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <Download className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <Trash2 className="w-4 h-4" />
-                      </Button> */}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+  <div key={resume.id} className="relative group">
+    <Card
+      className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+    >
+      <CardHeader>
+        <div className="flex items-start justify-between">
+          <FileText className="w-8 h-8 text-blue-500" />
+        </div>
+        <CardTitle className="text-lg">
+          {(resume?.resume_data?.Name || resume?.resume_data?.name)}
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        <div className="flex space-x-2">
+          <Link to={`/resume/${resume.id}`}>
+            <Button size="sm" variant="outline" className="flex-1">
+              <Eye className="w-4 h-4 mr-1" />
+              View
+            </Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+
+    {/* Copy icon */}
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(resume.id);
+        toast.success("ID copied to clipboard!");
+        console.log('copied' , resume.id)
+      }}
+      className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 p-1 rounded-full shadow-md"
+    >
+      <Clipboard className="w-4 h-4 text-gray-800" />
+    </button>
+  </div>
+))}
+              
             </div>
           </TabsContent>
 
@@ -679,6 +680,7 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
           </TabsContent>
         </Tabs>
       </motion.div>
+      <Toaster/>
     </div>
   )
 }
