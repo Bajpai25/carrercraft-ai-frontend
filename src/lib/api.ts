@@ -165,6 +165,19 @@ export async function uploadAndParseResume(file: File, userId: string) {
   localStorage.setItem("resumeId",data.resume.id );
   return res;
 }
+// export async function uploadAndParseResume(file: File, userId: string) {
+//   const formData = new FormData();
+//   formData.append("file", file);
+//   formData.append("userId", userId);
+
+//   const res = await fetch(`http://localhost:8000/upload-parse-resume`, {
+//     method: "POST",
+//     body: formData,
+//   });
+//   const data = await res.json();
+//   localStorage.setItem("resumeId",data.resume.id );
+//   return res;
+// }
 
 export const generateATS = `
   mutation GenerateATS($resumeId: String!, $userId: String!) {
@@ -180,6 +193,8 @@ export const generateATS = `
   }
 }
   `
+
+
 
 export async function uploadJob(url: string, type: string, userId: string) {
   const query = `
@@ -203,6 +218,29 @@ export async function uploadJob(url: string, type: string, userId: string) {
   return data.data.uploadJob;
 }
 
+
+// export async function uploadJob(url: string, type: string, userId: string) {
+//   const query = `
+//     mutation UploadJob($url: String!, $userId: String!, $type: String!) {
+//       uploadJob(url: $url, userId: $userId, type: $type) {
+//         id
+//         title
+//         url
+//       }
+//     }
+//   `;
+
+//   const res = await fetch(`http://localhost:8000/graphql`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ query, variables: { url, userId, type } }),
+//   });
+
+//   const data = await res.json();
+//   localStorage.setItem("jobId", data.data.uploadJob.id);
+//   return data.data.uploadJob;
+// }
+
 export async function generateFinalOutput(
   resumeId: string,
   jobId: string,
@@ -225,6 +263,49 @@ export async function generateFinalOutput(
      localStorage.setItem('coldemail_gen','true');
    }
   return data;
+}
+
+// export async function generateFinalOutput(
+//   resumeId: string,
+//   jobId: string,
+//   userId: string,
+//   type: "cover_letter" | "cold_email"
+// ) {
+//   const res = await fetch(`http://localhost:8000/${type}`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ resumeId, jobId, userId }),
+//   });
+ 
+//   const data = await res.json();
+  
+//    if (type === 'cover_letter') {
+//      localStorage.setItem("cover_letterId", data.savedCoverLetter.id);
+//      localStorage.setItem('coverletter_gen','true');
+//    } else {
+//      localStorage.setItem("emailId", data.coldEmail.id);
+//      localStorage.setItem('coldemail_gen','true');
+//    }
+//   return data;
+// }
+
+
+export async function skill_analysis(resumeId:string , jobId:string , userId:string){
+  try{
+    const response=await fetch("https://carrercraft-ai-backend-1.onrender.com/skill_analysis",{
+    method:"POST",
+    headers:{"Content-type":"application/json"},
+    body:JSON.stringify({
+      resumeId,jobId,userId
+    })
+  })
+  const data=await response.json();
+  console.log(data)
+  return data;
+  }
+  catch(err){
+    console.log(err, "Error while fetching the information!")
+  }
 }
 
 

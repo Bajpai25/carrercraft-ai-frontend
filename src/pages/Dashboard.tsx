@@ -7,10 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import {
   FileText,
   Mail,
-  Calendar,
   TrendingUp,
-  Target,
-  Zap,
   Eye,
   Plus,
   Clipboard
@@ -144,61 +141,11 @@ interface GetColdEmailByUserIdResponse {
 
 export function Dashboard() {
 
-  // const jobId = localStorage.getItem("jobId") || ""
-  // const resumeId = localStorage.getItem("resumeId") || "" 
-  const userId = localStorage.getItem("userId") || ""
-
- const [resumes, setResumes] = useState<Resume[]>([]);
+const userId = localStorage.getItem("userId") || ""
+const [resumes, setResumes] = useState<Resume[]>([]);
 const [coverLettersList, setCoverLettersList] = useState<CoverLetter[]>([]);
 const [jobList, setJobList] = useState<Job[]>([]);
 const [coldEmails, setColdEmails] = useState<ColdEmail[]>([]);
-
-console.log(jobList)
-
-
-// Fetch job data
-  // const fetchJobdata_by_user_id=async()=>{
-  //   const jobs=await client.request(GET_JOBS_BY_USER_ID, { userId })
-  //   return jobs;
-  // }
-
-  // // const fetchJobdata_by_id=async()=>{
-  // //   const job=await client.request(getJobById, { id: jobId }) 
-  // //   return job;
-  // // }
-
-  // // Fetch resume data
-  // const fetchResumedata_by_user_id=async()=>{
-  //   const resume=await client.request(GET_RESUME_BY_USER_ID, { userId })
-  //   return resume;
-  // }
-
-  // // const fetchResumedata_by_id=async()=>{
-  // //   const resume=await client.request(getResumeById, { id: resumeId })
-  // //   return resume;
-  // // }
-
-  // // Fetch cover letter data
-
-  // const fetchCoverLetterdata_by_user_id=async()=>{
-  //   const coverLetter=await client.request(Get_cover_letter_by_userId, { userId })
-  //   return coverLetter;
-  // }
-
-  // // const fetchCoverLetterdata_by_id=async()=>{
-  // //   const coverLetter=await client.request(getCoverletterById, { id: coverLetterId })
-  // //   return coverLetter;
-  // // }
-
-  // // fetch cold email data
-  // const fetchColdEmaildata_by_user_id=async()=>{
-  //   const coldEmail=await client.request(GET_COLD_EMAIL_BY_USERID, { userId })
-  //   return coldEmail;
-  // }
-  // // const fetchColdEmaildata_by_id=async()=>{
-  // //   const coldEmail=await client.request(getColdEmailById, { id: jobId })
-  // //   return coldEmail;
-  // // }
 
 
   const fetchResumedata_by_user_id = async (): Promise<GetResumeByUserIdResponse> => {
@@ -251,112 +198,6 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
     navigate("/auth")
     return null
   }
-
-  // Mock data
-  // const stats = {
-  //   totalResumes: 3,
-  //   coverLetters: 8,
-  //   emailTemplates: 12,
-  //   applicationsThisMonth: 15,
-  // }
-
-  // const recentResumes = [
-  //   {
-  //     id: 1,
-  //     name: "Software Engineer Resume",
-  //     lastModified: "2 hours ago",
-  //     status: "active",
-  //     aiScore: 92,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Full Stack Developer Resume",
-  //     lastModified: "1 day ago",
-  //     status: "draft",
-  //     aiScore: 88,
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Senior Developer Resume",
-  //     lastModified: "3 days ago",
-  //     status: "archived",
-  //     aiScore: 95,
-  //   },
-  // ]
-
-  // const coverLetters = [
-  //   {
-  //     id: 1,
-  //     title: "Google Software Engineer",
-  //     company: "Google",
-  //     position: "Software Engineer",
-  //     created: "Today",
-  //     status: "sent",
-  //     aiScore: 94,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Meta Frontend Developer",
-  //     company: "Meta",
-  //     position: "Frontend Developer",
-  //     created: "Yesterday",
-  //     status: "draft",
-  //     aiScore: 89,
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Netflix Backend Engineer",
-  //     company: "Netflix",
-  //     position: "Backend Engineer",
-  //     created: "2 days ago",
-  //     status: "sent",
-  //     aiScore: 91,
-  //   },
-  // ]
-
-  // const emailTemplates = [
-  //   {
-  //     id: 1,
-  //     title: "Follow-up after Google interview",
-  //     type: "Follow-up",
-  //     lastUsed: "Today",
-  //     timesUsed: 3,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "LinkedIn connection request",
-  //     type: "Networking",
-  //     lastUsed: "2 days ago",
-  //     timesUsed: 8,
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Thank you note - Meta",
-  //     type: "Thank You",
-  //     lastUsed: "1 week ago",
-  //     timesUsed: 1,
-  //   },
-  // ]
-
-  // const getStatusColor = (status: string) => {
-  //   switch (status) {
-  //     case "active":
-  //     case "sent":
-  //       return "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-  //     case "draft":
-  //       return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-  //     case "archived":
-  //       return "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400"
-  //     default:
-  //       return "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
-  //   }
-  // }
-
-  // const getAIScoreColor = (score: number) => {
-  //   if (score >= 90) return "text-green-600 dark:text-green-400"
-  //   if (score >= 80) return "text-yellow-600 dark:text-yellow-400"
-  //   return "text-red-600 dark:text-red-400"
-  // }
 
   return (
     <div className="space-y-8 text-gray-600 dark:text-gray-300">
@@ -447,76 +288,64 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="Jobs">Jobs</TabsTrigger>
             <TabsTrigger value="resumes">Resumes</TabsTrigger>
             <TabsTrigger value="cover-letters">Cover Letters</TabsTrigger>
             <TabsTrigger value="emails">Email Templates</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              {/* Recent Activity */}
-              <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Calendar className="w-5 h-5" />
-                    <span>Recent Activity</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20">
-                    <FileText className="w-4 h-4 text-blue-600" />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Updated Software Engineer Resume</p>
-                      <p className="text-xs text-gray-500">2 hours ago</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20">
-                    <Mail className="w-4 h-4 text-purple-600" />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Created cover letter for Google</p>
-                      <p className="text-xs text-gray-500">1 day ago</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-green-50 dark:bg-green-900/20">
-                    <Target className="w-4 h-4 text-green-600" />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Applied to Meta Frontend role</p>
-                      <p className="text-xs text-gray-500">2 days ago</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+          <TabsContent value="Jobs" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold">My Jobs</h2>
+              <Link to="/">
+              <Button className="bg-gradient-to-r text-white from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
+                <Plus className="w-4 h-4 mr-2" />
+                Scraped Jobs
+              </Button>
+              </Link>
+            </div>
 
-              {/* AI Insights */}
-              <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Zap className="w-5 h-5 text-yellow-500" />
-                    <span>AI Insights</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="p-4 rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-800">
-                    <h4 className="font-medium text-yellow-800 dark:text-yellow-200">Resume Optimization</h4>
-                    <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                      Add more quantified achievements to increase your ATS score by 15%
-                    </p>
-                  </div>
-                  <div className="p-4 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800">
-                    <h4 className="font-medium text-blue-800 dark:text-blue-200">Cover Letter Tip</h4>
-                    <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                      Personalize your opening paragraph for each company to improve response rates
-                    </p>
-                  </div>
-                  <div className="p-4 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800">
-                    <h4 className="font-medium text-green-800 dark:text-green-200">Application Strategy</h4>
-                    <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                      You're 3x more likely to get responses when applying within 48 hours of job posting
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobList.map((job) => (
+  <div key={job.id} className="relative group">
+    <Card
+      className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+    >
+      <CardHeader>
+        <div className="flex items-start justify-between">
+          <FileText className="w-8 h-8 text-blue-500" />
+        </div>
+        <CardTitle className="text-lg">
+          {(job?.title || job?.company?.trim())}
+        </CardTitle>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        <div className="flex space-x-2">
+          <Link to={`/job/${job.id}`}>
+            <Button size="sm" variant="outline" className="flex-1">
+              <Eye className="w-4 h-4 mr-1" />
+              View
+            </Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+
+    {/* Copy icon */}
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(job.id);
+        toast.success("ID copied to clipboard!");
+        console.log('copied' , job.id)
+      }}
+      className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 p-1 rounded-full shadow-md"
+    >
+      <Clipboard className="w-4 h-4 text-gray-800" />
+    </button>
+  </div>
+))}
+              
             </div>
           </TabsContent>
 

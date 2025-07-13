@@ -1,8 +1,6 @@
-"use client"
-
 import type React from "react"
 import { cn } from "../lib/utils"
-import { Zap, FileText, Mail, Home, User, LogOut, Settings, LayoutDashboard, Crown } from "lucide-react"
+import { Zap, FileText, Mail, Home, User, LogOut, Settings, LayoutDashboard, Crown , ChartNoAxesCombined } from "lucide-react"
 // import { ThemeToggle } from "./theme-toggle"
 import { Link, useLocation } from "react-router-dom"
 import { useAuth } from "./auth-provider"
@@ -30,7 +28,9 @@ export function Layout({ children, className, ...props }: LayoutProps) {
     { path: "/", label: "Home", icon: Home },
     { path: "/cover-letters", label: "Cover Letters", icon: FileText },
     { path: "/email-templates", label: "Email Templates", icon: Mail },
-    {path:"/ats" , label:"ATS",icon:Settings}
+    {path:"/ats" , label:"ATS",icon:Settings},
+    {path:"/skill-analysis" , label:"Skill Analysis", icon:ChartNoAxesCombined}
+
   ]
 
   const getUserInitials = (name?: string) => {

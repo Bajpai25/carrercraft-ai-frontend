@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { useState } from "react"
 import { Layout } from "./components/layout"
 import { HomePage } from "./pages/HomePage"
 import { CoverLetterTemplates } from "./pages/CoverLetterTemplates"
@@ -14,8 +15,13 @@ import Email from "./pages/Email"
 import Resume from "./pages/Resume"
 import { ProtectedRoute } from "./pages/ProtectedRoute"
 import Ats from "./pages/Ats"
+import { SkillGapDialog } from "./components/skill-gap-dialog"
+import { SkillAnalysisPage } from "./components/skill-analysis-page"
+import Job_Single from "./pages/Job_single"
 
 function App() {
+
+  
 
 
   return (
@@ -34,9 +40,11 @@ function App() {
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/test" element={<ProtectedRoute><DebugPanel /></ProtectedRoute>} />
               <Route path="/cover_letter/:id" element={<ProtectedRoute><CoverLetter /></ProtectedRoute>} />
+              <Route path="/job/:id" element={<ProtectedRoute><Job_Single/></ProtectedRoute>}/>
               <Route path="/email/:id" element={<ProtectedRoute><Email /></ProtectedRoute>} />
               <Route path="/resume/:id" element={<ProtectedRoute><Resume /></ProtectedRoute>} />
               <Route path="/ats"  element={<ProtectedRoute><Ats/></ProtectedRoute>}/>
+              <Route path="/skill-analysis" element={<ProtectedRoute><SkillAnalysisPage/></ProtectedRoute>}/>
             </Routes>
           </Layout>
         </Router>

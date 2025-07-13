@@ -36,27 +36,7 @@ const Ats = () => {
   const [resumeUploaded, setResumeUploaded] = useState(false);
   const [showDialog, setShowDialog] = useState(true);
   const navigate=useNavigate()
-
-  // useEffect(() => {
-  //   const fetchAtsData = async () => {
-  //     const resumeId = localStorage.getItem("resumeId");
-  //     const userId = localStorage.getItem("userId");
-
-  //     if (resumeId && userId) {
-  //       try {
-  //         const data: RunATSdata = await client.request(generateATS, { userId, resumeId });
-  //         setAtsData(data?.runATSAnalysis);
-  //         console.log("Raw ATS response:", data);
-  //       } catch (error) {
-  //         console.error("Error fetching ATS data:", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     }
-  //   };
-
-  //   fetchAtsData();
-  // }, []);
+  
 useEffect(() => {
     const fetchAtsData = async () => {
       const resumeId = localStorage.getItem("resumeId");
