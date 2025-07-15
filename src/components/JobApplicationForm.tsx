@@ -401,9 +401,9 @@ const handleResumeIdSubmit = () => {
       {/* Advanced Dialog */}
       <Dialog  open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="
-    w-full max-w-[95%] sm:max-w-4xl 
+    w-full max-w-[95%] sm:max-w-2xl 
     p-0 sm:p-0 overflow-y-auto border-0 
-    bg-transparent shadow-2xl 
+    bg-transparent shadow-2xl h-[95%]
     sm:rounded-3xl 
   ">
           <AnimatePresence mode="wait">
@@ -432,7 +432,7 @@ const handleResumeIdSubmit = () => {
                       exit={{ opacity: 0, y: -30 }}
                       className="text-center space-y-4"
                     >
-                       <div className="p-4 sm:p-6 bg-gradient-to-b from-white to-gray-50/30  md:w-auto w-[200px] overflow-y-auto">
+                       <div className="p-4 sm:p-6 bg-gradient-to-b from-white to-gray-50/30  md:w-auto overflow-y-auto">
                         <motion.div
                           className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-2xl"
                           animate={{ rotate: [0, 360] }}
