@@ -1,59 +1,34 @@
-import { useState } from "react"
-import { JobApplicationForm } from "../components/JobApplicationForm"
-// import { ResultsDisplay } from "../components/ResultsDisplay"
-import { motion, AnimatePresence } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { Button } from "../components/ui/button"
-import { FileText, Mail, ArrowRight } from "lucide-react"
-import { Link , useNavigate } from "react-router-dom"
-import { CareerCraftLogo } from "../components/ui/careercraft-logo"
 
+
+
+
+
+import { useState } from "react";
+import { JobApplicationForm } from "../components/JobApplicationForm";
+// import { ResultsDisplay } from "../components/ResultsDisplay"
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { FileText, Mail, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { CareerCraftLogo } from "../components/ui/careercraft-logo";
 
 export function HomePage() {
-  const [showResults, setShowResults] = useState(false)
-  const [isProcessing, setIsProcessing] = useState(false)
-  const navigate = useNavigate()
-
-//   // Mock data for demonstration
-//   const mockResults = {
-//     matchedSkills: ["React", "TypeScript", "Node.js", "Git"],
-//     missingSkills: ["GraphQL", "AWS", "Docker"],
-//     learningResources: [
-//       {
-//         title: "GraphQL Fundamentals",
-//         url: "https://graphql.org/learn/",
-//       },
-//       {
-//         title: "AWS Certified Solutions Architect",
-//         url: "https://aws.amazon.com/certification/",
-//       },
-//       {
-//         title: "Docker for Beginners",
-//         url: "https://docs.docker.com/get-started/",
-//       },
-//     ],
-//     coverLetter: `Dear Hiring Manager,
-
-// I am writing to express my strong interest in the position. With my experience in React and TypeScript, I believe I would be a valuable addition to your team.
-
-// I am particularly excited about the opportunity to work with your innovative team and contribute to your mission.
-
-// Best regards,
-// [Your Name]`,
-//     latexResumeUrl: "/sample-resume.pdf",
-//   }
+  const [showResults, setShowResults] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    setIsProcessing(true)
+    setIsProcessing(true);
     // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsProcessing(false)
-    setShowResults(true)
-    navigate("/results")
-  }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsProcessing(false);
+    setShowResults(true);
+    navigate("/results");
+  };
 
   return (
-    <div className="space-y-16 text-gray-600 dark:text-gray-300">
+    <div className="container mx-auto px-4 md:px-8 lg:px-16 py-10 space-y-16 text-gray-600 dark:text-gray-300">
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -69,12 +44,12 @@ export function HomePage() {
             className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 backdrop-blur-sm"
           >
             <CareerCraftLogo size="sm" variant="icon" className="mr-2" />
-            <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-sm md:text-base font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               ✨ Powered by CareerCraft AI
             </span>
           </motion.div>
 
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
             <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent dark:from-white dark:via-gray-100 dark:to-white">
               AI-Powered Career
             </span>
@@ -84,9 +59,9 @@ export function HomePage() {
             </span>
           </h1>
 
-          <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Transform your job applications with CareerCraft AI - featuring intelligent resume analysis, skill gap
-            identification, and personalized cover letters
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            Transform your job applications with CareerCraft AI — featuring intelligent resume analysis, skill gap
+            identification, and personalized cover letters.
           </p>
         </div>
       </motion.div>
@@ -96,7 +71,7 @@ export function HomePage() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto"
       >
         <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
           <CardHeader>
@@ -105,7 +80,7 @@ export function HomePage() {
               <span>Cover Letter Templates</span>
             </CardTitle>
             <CardDescription className="text-gray-600 dark:text-gray-300">
-              Professional cover letter templates for every industry
+              Professional cover letter templates for every industry.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -125,7 +100,7 @@ export function HomePage() {
               <span>Email Templates</span>
             </CardTitle>
             <CardDescription className="text-gray-600 dark:text-gray-300">
-              Professional email templates for networking and follow-ups
+              Professional email templates for networking and follow-ups.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -148,6 +123,7 @@ export function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
+            className="max-w-4xl mx-auto w-full px-2 md:px-4"
           >
             <JobApplicationForm onSubmit={handleSubmit} />
           </motion.div>
@@ -159,6 +135,7 @@ export function HomePage() {
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
+            {/* Add ResultsDisplay when ready */}
           </motion.div>
         )}
       </AnimatePresence>
@@ -170,30 +147,26 @@ export function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50"
+            className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50 px-4"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-gray-800/20 max-w-md mx-4"
+              className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 dark:border-gray-800/20 max-w-sm w-full"
             >
               <div className="text-center space-y-6">
-                {/* Modern Loading Animation */}
                 <div className="relative">
                   <CareerCraftLogo size="lg" variant="icon" animated />
                 </div>
-
                 <div className="space-y-2">
-                  <h3 className="text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <h3 className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                     CareerCraft AI Working
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    Analyzing your resume and job description with advanced AI
+                    Analyzing your resume and job description with advanced AI.
                   </p>
                 </div>
-
-                {/* Progress Steps */}
                 <div className="space-y-2">
                   <motion.div
                     initial={{ width: 0 }}
@@ -212,5 +185,5 @@ export function HomePage() {
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }

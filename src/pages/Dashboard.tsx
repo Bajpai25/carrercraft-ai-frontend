@@ -234,8 +234,8 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
         transition={{ delay: 0.1 }}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
       >
-        <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-blue-500/20 backdrop-blur-xl">
-          <CardContent className="p-6">
+        <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-blue-500/20 backdrop-blur-xl ">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Resumes</p>
@@ -247,7 +247,7 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
         </Card>
 
         <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-purple-500/20 backdrop-blur-xl">
-          <CardContent className="p-6">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Cover Letters</p>
@@ -259,7 +259,7 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
         </Card>
 
         <Card className="bg-gradient-to-br from-green-500/10 to-green-600/10 border-green-500/20 backdrop-blur-xl">
-          <CardContent className="p-6">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-green-600 dark:text-green-400">Email Templates</p>
@@ -271,7 +271,7 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
         </Card>
 
         <Card className="bg-gradient-to-br from-orange-500/10 to-orange-600/10 border-orange-500/20 backdrop-blur-xl">
-          <CardContent className="p-6">
+          <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Applications</p>
@@ -286,17 +286,74 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
 
       {/* Main Content Tabs */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-            <TabsTrigger value="Jobs">Jobs</TabsTrigger>
-            <TabsTrigger value="resumes">Resumes</TabsTrigger>
-            <TabsTrigger value="cover-letters">Cover Letters</TabsTrigger>
-            <TabsTrigger value="emails">Email Templates</TabsTrigger>
-          </TabsList>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 my-8 ">
+         <TabsList className="
+  grid w-full 
+  grid-cols-2 md:grid-cols-4 
+  gap-4
+  bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm 
+  pb-8 rounded-xl shadow-sm
+">
+  <TabsTrigger 
+    value="Jobs" 
+    className="
+      text-sm md:text-base 
+      px-4 py-2 rounded-full 
+      transition-all duration-300 
+      data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white 
+      hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20
+      font-medium
+    "
+  >
+    Jobs
+  </TabsTrigger>
 
-          <TabsContent value="Jobs" className="space-y-6">
+  <TabsTrigger 
+    value="resumes" 
+    className="
+      text-sm md:text-base 
+      px-4 py-2 rounded-full 
+      transition-all duration-300 
+      data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white 
+      hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20
+      font-medium
+    "
+  >
+    Resumes
+  </TabsTrigger>
+
+  <TabsTrigger 
+    value="cover-letters" 
+    className="
+      text-sm md:text-base 
+      px-4 py-2 rounded-full 
+      transition-all duration-300 
+      data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white 
+      hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20
+      font-medium
+    "
+  >
+    Cover Letters
+  </TabsTrigger>
+
+  <TabsTrigger 
+    value="emails" 
+    className="
+      text-sm md:text-base 
+      px-4 py-2 rounded-full 
+      transition-all duration-300 
+      data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white 
+      hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20
+      font-medium
+    "
+  >
+    Email Templates
+  </TabsTrigger>
+</TabsList>
+
+          <TabsContent value="Jobs" className="space-y-6 md:mt-0 mt-12">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">My Jobs</h2>
+              <h2 className="md:text-2xl text-xl font-bold">My Jobs</h2>
               <Link to="/">
               <Button className="bg-gradient-to-r text-white from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                 <Plus className="w-4 h-4 mr-2" />
@@ -305,7 +362,7 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
               </Link>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {jobList.map((job) => (
   <div key={job.id} className="relative group">
     <Card
@@ -349,9 +406,9 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
             </div>
           </TabsContent>
 
-          <TabsContent value="resumes" className="space-y-6">
+          <TabsContent value="resumes" className="space-y-6 md:mt-0 mt-12">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">My Resumes</h2>
+              <h2 className="md:text-2xl text-xl font-bold">My Resumes</h2>
               <Link to="/">
               <Button className="bg-gradient-to-r text-white from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
                 <Plus className="w-4 h-4 mr-2" />
@@ -404,9 +461,9 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
             </div>
           </TabsContent>
 
-          <TabsContent value="cover-letters" className="space-y-6">
+          <TabsContent value="cover-letters" className="space-y-6 md:mt-0 mt-12">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Cover Letters</h2>
+              <h2 className="md:text-2xl text-xl font-bold">Cover Letters</h2>
               <Link to ="/">
               <Button className="bg-gradient-to-r text-white from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
                 <Plus className="w-4 h-4 mr-2" />
@@ -459,9 +516,9 @@ const fetchColdEmaildata_by_user_id = async (): Promise<GetColdEmailByUserIdResp
             </div>
           </TabsContent>
 
-          <TabsContent value="emails" className="space-y-6">
+          <TabsContent value="emails" className="space-y-6 md:mt-0 mt-12">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Email Templates</h2>
+              <h2 className="md:text-2xl text-xl font-bold">Email Templates</h2>
               <Link to="/">
               <Button className="bg-gradient-to-r text-white from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600">
                 <Plus className="w-4 h-4 mr-2" />

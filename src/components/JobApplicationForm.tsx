@@ -245,7 +245,7 @@ const handleResumeIdSubmit = () => {
     }
   }
 
-  // const currentStepData = steps[currentStep]
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -254,14 +254,14 @@ const handleResumeIdSubmit = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-6xl mx-auto pt-12 px-4"
+        className="max-w-6xl pt-12 "
       >
-        <Card className="overflow-hidden shadow-2xl bg-white border-0 rounded-3xl">
+        <Card className="overflow-hidden shadow-2xl  border-0 rounded-3xl">
           <div className="relative bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-600 p-16 text-white">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
               <motion.div
-                className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"
+                className="absolute top-0 right-0 w-96 h-96  rounded-full blur-3xl"
                 animate={{
                   x: [0, 50, 0],
                   y: [0, -30, 0],
@@ -270,7 +270,7 @@ const handleResumeIdSubmit = () => {
                 transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
               />
               <motion.div
-                className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"
+                className="absolute bottom-0 left-0 w-64 h-64  rounded-full blur-3xl"
                 animate={{
                   x: [0, -30, 0],
                   y: [0, 20, 0],
@@ -280,7 +280,7 @@ const handleResumeIdSubmit = () => {
               />
             </div>
 
-            <div className="relative z-10 text-center space-y-8">
+            <div className="relative z-10 text-center space-y-6">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -292,7 +292,7 @@ const handleResumeIdSubmit = () => {
 
               <div className="space-y-6">
                 <motion.h1
-                  className="text-6xl font-bold leading-tight"
+                  className="md:text-6xl text-3xl font-bold leading-tight"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.6 }}
@@ -305,7 +305,7 @@ const handleResumeIdSubmit = () => {
                 </motion.h1>
 
                 <motion.p
-                  className="text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed"
+                  className="md:text-2xl text-lg text-center text-blue-100 md:max-w-3xl w-auto  leading-relaxed"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.6 }}
@@ -318,47 +318,32 @@ const handleResumeIdSubmit = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 0.6 }}
+                className="flex flex-col items-center"
               >
                 {user?
                 <Button
-                  onClick={startProcess}
-                  size="lg"
-                  className="bg-white text-blue-600 hover:bg-blue-50 font-bold text-xl px-12 py-6 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
-                >
-                  <Sparkles className="w-7 h-7 mr-4 group-hover:animate-spin" />
-                  Start Your AI Journey
-                  <ArrowRight className="w-7 h-7 ml-4 group-hover:translate-x-2 transition-transform" />
-                </Button>
+  onClick={startProcess}
+  size="lg"
+  className="bg-white text-blue-600 hover:bg-blue-50 font-bold text-base sm:text-md md:text-xl   rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group flex flex-wrap items-center justify-center text-center "
+><div className="flex flex-row gap-4"> 
+  <Sparkles className="w-7 h-7 mr-2 group-hover:animate-spin mt-1" />
+  <span className="whitespace-nowrap ">Start Your AI Journey</span>
+ 
+  <ArrowRight className=" w-7 h-7  group-hover:translate-x-2 transition-transform mt-2" />
+   </div>
+</Button>
+
                 :
-                // <Link to="/auth">
-                // <Button
-                //   // onClick={startProcess}
-                //   size="lg"
-                //   className="bg-white text-blue-600 hover:bg-blue-50 font-bold text-xl px-12 py-6 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
-                // >
-                //   <Sparkles className="w-7 h-7 mr-4 group-hover:animate-spin" />
-                //   Start Your AI Journey
-                //   <ArrowRight className="w-7 h-7 ml-4 group-hover:translate-x-2 transition-transform" />
-                // </Button>
-                // </Link>
                 null
                 }
-                {/* <Button
-                  onClick={startProcess}
-                  size="lg"
-                  className="bg-white text-blue-600 hover:bg-blue-50 font-bold text-xl px-12 py-6 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 group"
-                >
-                  <Sparkles className="w-7 h-7 mr-4 group-hover:animate-spin" />
-                  Start Your AI Journey
-                  <ArrowRight className="w-7 h-7 ml-4 group-hover:translate-x-2 transition-transform" />
-                </Button> */}
+                
               </motion.div>
             </div>
           </div>
 
-          <CardContent className="p-16 bg-gradient-to-b from-white to-gray-50/50">
+          <CardContent className="md:p-16 p-6 bg-gradient-to-b from-white to-gray-50/50">
             {/* Features Grid */}
-            <div className="grid md:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:text-center text-left">
               {[
                 {
                   icon: Brain,
@@ -390,11 +375,11 @@ const handleResumeIdSubmit = () => {
                   className="group relative"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                  <div className="relative text-center p-10 rounded-3xl bg-white shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-4 border border-gray-100">
+                  <div className="relative text-center p-10  rounded-3xl bg-white shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-4 border border-gray-100">
                     <div
-                      className={`w-20 h-20 mx-auto rounded-full bg-gradient-to-r ${feature.color} flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300`}
+                      className={`w-20 h-20 mx-auto  rounded-full bg-gradient-to-r ${feature.color} flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform duration-300`}
                     >
-                      <feature.icon className="w-10 h-10 text-white" />
+                      <feature.icon className="w-10 h-10  text-white" />
                     </div>
                     <div className={`w-16 h-1 bg-gradient-to-r ${feature.color} rounded-full mx-auto mb-6`}></div>
                     <h3 className="font-bold text-gray-800 mb-4 text-xl">{feature.title}</h3>
@@ -409,111 +394,34 @@ const handleResumeIdSubmit = () => {
               ))}
             </div>
 
-            {/* Social Proof */}
-            {/* <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, duration: 0.8 }}
-              className="mt-20 text-center"
-            >
-              <div className="grid grid-cols-4 gap-8 max-w-2xl mx-auto">
-                {[
-                  { number: "50K+", label: "Resumes Analyzed" },
-                  { number: "95%", label: "Success Rate" },
-                  { number: "2.5x", label: "More Interviews" },
-                  { number: "< 30s", label: "Generation Time" },
-                ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 1.4 + index * 0.1, duration: 0.5 }}
-                    className="space-y-2"
-                  >
-                    <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                      {stat.number}
-                    </div>
-                    <div className="text-gray-600 font-medium text-sm">{stat.label}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div> */}
           </CardContent>
         </Card>
       </motion.div>
 
       {/* Advanced Dialog */}
       <Dialog  open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-4xl p-0 max-h-auto overflow-y-auto border-0 bg-transparent shadow-2xl">
+        <DialogContent className="
+    w-full max-w-[95%] sm:max-w-4xl 
+    p-0 sm:p-0 overflow-y-auto border-0 
+    bg-transparent shadow-2xl 
+    sm:rounded-3xl 
+  ">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentStep}
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.4 }}
-              className="bg-white rounded-3xl shadow-2xl overflow-hidden "
-            >
-              {/* Header */}
-              {/* <div className={`relative bg-gradient-to-r ${currentStepData.color} p-10 text-white`}>
-                <div className="absolute inset-0 bg-black/5"></div>
-                <motion.div
-                  className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-2xl"
-                  animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
-                  transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                />
-
-                <div className="relative z-10">
-                  <DialogHeader className="text-center space-y-6">
-                    <div className="flex items-center justify-between">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-                        disabled={currentStep === 0 || loading}
-                        className="text-white/70 hover:text-white hover:bg-white/20 rounded-full"
-                      >
-                        <ChevronLeft className="w-6 h-6" />
-                      </Button>
-
-                      <div className="flex items-center space-x-4">
-                        <motion.div
-                          className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <currentStepData.icon className="w-8 h-8" />
-                        </motion.div>
-                        <div className="text-left">
-                          <div className="text-sm font-medium bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm">
-                            Step {currentStep + 1} of {steps.length}
-                          </div>
-                        </div>
-                      </div>
-
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setIsDialogOpen(false)}
-                        disabled={loading}
-                        className="text-white/70 hover:text-white hover:bg-white/20 rounded-full"
-                      >
-                        <X className="w-6 h-6" />
-                      </Button>
-                    </div>
-
-                    <div className="space-y-3">
-                      <DialogTitle className="text-4xl font-bold">{currentStepData.title}</DialogTitle>
-                      <DialogDescription className="text-white/90 text-xl">
-                        {currentStepData.description}
-                      </DialogDescription>
-                    </div>
-                  </DialogHeader>
-                </div>
-              </div> */}
-
+           <motion.div
+  key={currentStep}
+  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+  animate={{ opacity: 1, scale: 1, y: 0 }}
+  exit={{ opacity: 0, scale: 0.95, y: -20 }}
+  transition={{ duration: 0.4 }}
+  className="bg-white rounded-none sm:rounded-3xl shadow-2xl overflow-hidden"
+>
+             
               {/* Content */}
-              <div className="p-6  bg-gradient-to-b from-white to-gray-50/30 lg:max-h-auto max-h-auto w-auto overflow-y-auto">
+              <div className="
+  p-4 sm:p-6 
+  bg-gradient-to-b from-white to-gray-50/30 
+   overflow-y-auto w-full
+">
                 <AnimatePresence mode="wait">
                   {/* Welcome Step */}
                   {currentStep === 0 && (
@@ -524,7 +432,7 @@ const handleResumeIdSubmit = () => {
                       exit={{ opacity: 0, y: -30 }}
                       className="text-center space-y-4"
                     >
-                      <div className="space-y-8">
+                       <div className="p-4 sm:p-6 bg-gradient-to-b from-white to-gray-50/30  md:w-auto w-[200px] overflow-y-auto">
                         <motion.div
                           className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-2xl"
                           animate={{ rotate: [0, 360] }}
