@@ -278,7 +278,7 @@ const CoverLetter_Single = () => {
                   <div className="flex items-center text-sm text-slate-500">
                     <span>Last updated: June 10, 2025</span>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex flex-col md:flex-row  gap-2 md:gap-3 w-full">
                     {cover_letter_data?.fileUrl && (
                       <Button
                         variant="outline"
@@ -290,7 +290,7 @@ const CoverLetter_Single = () => {
                             position: "top-center",
                           })
                         }}
-                        className="border-green-200 text-green-600 hover:bg-green-50"
+                        className="border-green-200 text-green-600 hover:bg-green-50 w-full md:w-auto"
                       >
                         <ExternalLink className="h-4 w-4 mr-2" />
                         Job Link
@@ -300,7 +300,7 @@ const CoverLetter_Single = () => {
                       variant="outline"
                       size="sm"
                       onClick={handleShare}
-                      className="border-purple-200 text-purple-600 hover:bg-purple-50"
+                      className="border-purple-200 text-purple-600 hover:bg-purple-50 w-full md:w-auto"
                     >
                       <Share2 className="h-4 w-4 mr-2" />
                       Share
@@ -308,7 +308,7 @@ const CoverLetter_Single = () => {
                     <Button
                       size="sm"
                       onClick={handleDownloadPDF}
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg"
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg w-full md:w-auto"
                     >
                       <Download className="h-4 w-4 mr-2" />
                       Download PDF

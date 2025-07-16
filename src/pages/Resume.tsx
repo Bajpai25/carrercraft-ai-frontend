@@ -1,4 +1,3 @@
-"use client"
 
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
@@ -236,44 +235,58 @@ const Resume_single = () => {
           >
             <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm overflow-hidden">
               <CardHeader className="border-b bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 p-6">
-                <div className="flex justify-between items-start">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <FileText className="w-6 h-6 text-emerald-600" />
-                      <h2 className="text-2xl font-bold text-slate-800">{ resume?.Name || resume?.name}'s Resume</h2>
-                      <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-emerald-200">
-                        Professional
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-slate-500">ID: {resumeData?.id?.substring(0, 8)}...</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={copyToClipboard}
-                      disabled={copying}
-                      className="border-emerald-200 text-emerald-600 hover:bg-emerald-50"
-                    >
-                      {copying ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Copy className="h-4 w-4 mr-2" />}
-                      Copy
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handlePrint}
-                      className="border-slate-200 text-slate-600 hover:bg-slate-50"
-                    >
-                      <Printer className="h-4 w-4 mr-2" />
-                      Print
-                    </Button>
-                  </div>
-                </div>
+                <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-6 w-full">
+  <div className="space-y-2 w-full md:w-auto">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+      <div className="flex items-center gap-2">
+        <FileText className="w-6 h-6 text-emerald-600" />
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-800">
+          {resume?.Name || resume?.name}'s Resume
+        </h2>
+      </div>
+      <Badge
+        variant="secondary"
+        className="bg-emerald-100 text-emerald-700 border-emerald-200 w-fit"
+      >
+        Professional
+      </Badge>
+    </div>
+    <p className="text-sm text-slate-500 break-words">
+      ID: {resumeData?.id?.substring(0, 8)}...
+    </p>
+  </div>
+
+  <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={copyToClipboard}
+      disabled={copying}
+      className="border-emerald-200 text-emerald-600 hover:bg-emerald-50 w-full sm:w-auto"
+    >
+      {copying ? (
+        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+      ) : (
+        <Copy className="h-4 w-4 mr-2" />
+      )}
+      Copy
+    </Button>
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={handlePrint}
+      className="border-slate-200 text-slate-600 hover:bg-slate-50 w-full sm:w-auto"
+    >
+      <Printer className="h-4 w-4 mr-2" />
+      Print
+    </Button>
+  </div>
+</div>
               </CardHeader>
 
               <CardContent className="p-6">
                 <Tabs defaultValue="overview" className="w-full">
-                  <TabsList className="grid w-full grid-cols-6 mb-6">
+                  <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mb-6">
                     <TabsTrigger value="overview" className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       Overview
@@ -300,15 +313,15 @@ const Resume_single = () => {
                     </TabsTrigger>
                   </TabsList>
 
-                  <TabsContent value="overview" className="space-y-6">
+                  <TabsContent value="overview" className="space-y-6 md:mt-0 mt-12">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <Card className="bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200">
+                      <Card className="bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200 ">
                         <CardContent className="p-6">
-                          <h3 className="text-xl font-semibold mb-4 text-emerald-800">Professional Summary</h3>
+                          <h3 className="text-xl font-semibold mb-4 text-emerald-800 ">Professional Summary</h3>
                           <p className="text-slate-700 leading-relaxed">
                             Experienced Full Stack Developer with expertise in modern web technologies including React,
                             Node.js, and various databases. Proven track record in building scalable applications and
@@ -320,7 +333,7 @@ const Resume_single = () => {
                     </motion.div>
 
                     {/* Quick Stats */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 ">
                       <Card className="bg-white/60 backdrop-blur-sm border-0 shadow-lg">
                         <CardContent className="p-4 text-center">
                           <div className="text-2xl font-bold text-emerald-600">{ (resume?.Experience?.length || resume?.experience?.length ) || 0}</div>
@@ -350,7 +363,7 @@ const Resume_single = () => {
                     </div>
                   </TabsContent>
 
-                  <TabsContent value="skills" className="space-y-6">
+                  <TabsContent value="skills" className="space-y-6 md:mt-0 mt-12">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -435,7 +448,7 @@ const Resume_single = () => {
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="experience" className="space-y-6">
+                  <TabsContent value="experience" className="space-y-6 md:mt-0 mt-12">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -469,7 +482,7 @@ const Resume_single = () => {
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="projects" className="space-y-6">
+                  <TabsContent value="projects" className="space-y-6 md:mt-0 mt-12">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -497,7 +510,7 @@ const Resume_single = () => {
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="education" className="space-y-6">
+                  <TabsContent value="education" className="space-y-6 md:mt-0 mt-12">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -533,7 +546,7 @@ const Resume_single = () => {
                     </motion.div>
                   </TabsContent>
 
-                  <TabsContent value="achievements" className="space-y-6">
+                  <TabsContent value="achievements" className="space-y-6 md:mt-0 mt-12">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -587,47 +600,48 @@ const Resume_single = () => {
                 </Tabs>
               </CardContent>
 
-              <CardFooter className="border-t bg-gradient-to-r from-slate-50 to-slate-100 p-6">
+              <CardFooter className="border-t bg-gradient-to-r from-slate-50 to-slate-100 p-6 ">
                 <div className="flex justify-between items-center w-full">
                   <div className="flex items-center text-sm text-slate-500">
                     <span>Last updated: {new Date().toLocaleDateString()}</span>
                   </div>
-                  <div className="flex gap-3">
-                    {resumeData?.fileUrl && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          window.open(resumeData.fileUrl, "_blank")
-                          toast.success("Opening original file...", {
-                            duration: 2000,
-                            position: "top-center",
-                          })
-                        }}
-                        className="border-blue-200 text-blue-600 hover:bg-blue-50"
-                      >
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        View PDF
-                      </Button>
-                    )}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleShare}
-                      className="border-purple-200 text-purple-600 hover:bg-purple-50"
-                    >
-                      <Share2 className="h-4 w-4 mr-2" />
-                      Share
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={handleDownloadPDF}
-                      className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg"
-                    >
-                      <Download className="h-4 w-4 mr-2" />
-                      Download PDF
-                    </Button>
-                  </div>
+                 <div className="flex flex-col md:flex-row  gap-2 md:gap-3 w-full">
+  {resumeData?.fileUrl && (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => {
+        window.open(resumeData.fileUrl, "_blank")
+        toast.success("Opening original file...", {
+          duration: 2000,
+          position: "top-center",
+        })
+      }}
+      className="border-blue-200 text-blue-600 hover:bg-blue-50 w-full md:w-auto"
+    >
+      <ExternalLink className="h-4 w-4 mr-2" />
+      View PDF
+    </Button>
+  )}
+  <Button
+    variant="outline"
+    size="sm"
+    onClick={handleShare}
+    className="border-purple-200 text-purple-600 hover:bg-purple-50 w-full md:w-auto"
+  >
+    <Share2 className="h-4 w-4 mr-2" />
+    Share
+  </Button>
+  <Button
+    size="sm"
+    onClick={handleDownloadPDF}
+    className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg w-full md:w-auto"
+  >
+    <Download className="h-4 w-4 mr-2" />
+    Download PDF
+  </Button>
+</div>
+
                 </div>
               </CardFooter>
             </Card>

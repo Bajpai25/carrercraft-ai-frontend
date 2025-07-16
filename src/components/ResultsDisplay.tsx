@@ -28,10 +28,6 @@ export function ResultsDisplay() {
     },
   }
  
-
-  // const jobId = localStorage.getItem("jobId") || ""
-  // const resumeId = localStorage.getItem("resumeId") || "" 
-  // const userId = localStorage.getItem("userId") || ""
   const coverLetterId = localStorage.getItem("cover_letterId") || ""
   const emailId=localStorage.getItem("emailId") || ""
   const [jobData, setJobData] = useState<Job| null>(null)
@@ -64,44 +60,7 @@ localStorage.removeItem('coldemail_gen');
 },[location.pathname])
 
 
-  // Fetch job data
-  // const fetchJobdata_by_user_id=async()=>{
-  //   const jobs=await client.request(GET_JOBS_BY_USER_ID, { userId })
-  //   return jobs;
-  // }
-
-  // const fetchJobdata_by_id=async()=>{
-  //   const job=await client.request(getJobById, { id: jobId }) 
-  //   return job;
-  // }
-
-  // const fetch_coldemail_by_id=async()=>{
-  //   const coldemail=await client.request(getCoverletterById, { id: emailId })
-  //   return coldemail;
-  // }
-
-  // Fetch resume data
-  // const fetchResumedata_by_user_id=async()=>{
-  //   const resume=await client.request(GET_RESUME_BY_USER_ID, { userId })
-  //   return resume;
-  // }
-
-  // const fetchResumedata_by_id=async()=>{
-  //   const resume=await client.request(getResumeById, { id: resumeId })
-  //   return resume;
-  // }
-
-  // Fetch cover letter data
-
-  // const fetchCoverLetterdata_by_user_id=async()=>{
-  //   const coverLetter=await client.request(Get_cover_letter_by_userId, { userId })
-  //   return coverLetter;
-  // }
-
-  // const fetchCoverLetterdata_by_id=async()=>{
-  //   const coverLetter=await client.request(getCoverletterById, { id: coverLetterId })
-  //   return coverLetter;
-  // }
+  
 
  useEffect(() => {
   let isMounted = true
@@ -109,7 +68,7 @@ localStorage.removeItem('coldemail_gen');
   const fetchData = async () => {
     const jobId = localStorage.getItem("jobId") || ""
     const resumeId = localStorage.getItem("resumeId") || "" 
-    // const userId = localStorage.getItem("userId") || ""
+  
     const coverLetterId = localStorage.getItem("cover_letterId") || ""
 
     try {
@@ -136,12 +95,7 @@ localStorage.removeItem('coldemail_gen');
   return () => {
     isMounted = false
   }
-}, []) // empty dependency array ensures this runs only once on mount
-
-// console.log(coverLetterData);
-// console.log(jobData);
-console.log(resumeData);
-// console.log(coldemailData);
+}, []) 
 
 
 
@@ -157,7 +111,7 @@ console.log(resumeData);
   }
 
   return (
-    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-8">
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-8 px-4 sm:px-6 lg:px-8 w-full">
       {/* Header */}
       <motion.div variants={itemVariants} className="text-center space-y-4">
         <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
@@ -169,96 +123,10 @@ console.log(resumeData);
         </h2>
       </motion.div>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        {/* Skills Analysis */}
-        {/* <motion.div variants={itemVariants}>
-          <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl h-full">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Target className="w-5 h-5 text-blue-500" />
-                <span>Skills Analysis</span>
-              </CardTitle>
-              <CardDescription>AI-powered skill matching and gap analysis</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <h4 className="font-medium text-green-700 dark:text-green-400 mb-3 flex items-center">
-                  <CheckCircle className="w-4 h-4 mr-2" />
-                  Matched Skills ({matchedSkills.length})
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {matchedSkills.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800"
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h4 className="font-medium text-orange-700 dark:text-orange-400 mb-3 flex items-center">
-                  <XCircle className="w-4 h-4 mr-2" />
-                  Skills to Develop ({missingSkills.length})
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {missingSkills.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className="bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800"
-                    >
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div> */}
-
-        {/* Learning Resources */}
-        {/* <motion.div variants={itemVariants}>
-          <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl h-full">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Lightbulb className="w-5 h-5 text-purple-500" />
-                <span>Learning Resources</span>
-              </CardTitle>
-              <CardDescription>Personalized recommendations to bridge skill gaps</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {learningResources.map((resource, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-purple-50/50 to-blue-50/50 dark:from-purple-900/20 dark:to-blue-900/20 border border-purple-200/30 dark:border-purple-800/30"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <BookOpen className="w-4 h-4 text-purple-600" />
-                      <span className="font-medium">{resource.title}</span>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-purple-600 hover:text-purple-700 hover:bg-purple-100 dark:hover:bg-purple-900/30"
-                      asChild
-                    >
-                      <a href={resource.url} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div> */}
+      <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-2">
+       
  {jobData && (
-  <motion.div variants={itemVariants}>
+  <motion.div variants={itemVariants} className="w-full">
     <Card className="bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-white/20 shadow-xl">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
@@ -303,7 +171,7 @@ console.log(resumeData);
       <CardContent>
         <p><strong>Name:</strong> {resumeData?.resume_data?.Name || resumeData?.resume_data?.name}</p>
 
-        <Tabs defaultValue="education" className="mt-6 w-full">
+        <Tabs defaultValue="education" className="mt-6 w-full ">
           <TabsList className="grid grid-cols-3 md:grid-cols-5">
             <TabsTrigger value="education">Education</TabsTrigger>
             <TabsTrigger value="experience">Experience</TabsTrigger>
@@ -314,7 +182,7 @@ console.log(resumeData);
 
           {/* Education */}
           <TabsContent value="education">
-            <h3 className="font-semibold text-lg mb-2">Education</h3>
+            <h3 className="font-semibold text-lg mb-2 pt-6">Education</h3>
             <ul className="space-y-2 list-disc ">
               {(resumeData?.resume_data?.Education || resumeData?.resume_data?.education)?.map((edu: EducationEntry, index: number) => (
                 <li key={index}>
@@ -327,7 +195,7 @@ console.log(resumeData);
 
           {/* Experience */}
           <TabsContent value="experience">
-            <h3 className="font-semibold text-lg mb-2">Experience</h3>
+            <h3 className="font-semibold text-lg mb-2 pt-6">Experience</h3>
             <ul className="space-y-3 list-disc ">
               {(resumeData?.resume_data?.Experience || resumeData?.resume_data?.experience)?.map((exp: ExperienceEntry, index: number) => (
                 <li key={index}>
@@ -342,7 +210,7 @@ console.log(resumeData);
 
           {/* Projects */}
           <TabsContent value="projects">
-            <h3 className="font-semibold text-lg mb-2">Projects</h3>
+            <h3 className="font-semibold text-lg mb-2 pt-6">Projects</h3>
             <ul className="space-y-3 list-disc ">
               {(resumeData?.resume_data?.Projects || resumeData?.resume_data?.projects)?.map((proj: ProjectEntry, index: number) => (
                 <li key={index}>
@@ -356,7 +224,7 @@ console.log(resumeData);
           {/* Skills */}
           <TabsContent value="skills">
             <motion.div>
-            <h3 className="font-semibold text-lg mb-2">Skills</h3>
+            <h3 className="font-semibold text-lg mb-2 pt-6">Skills</h3>
                    {/* Programming Languages */}
                       <Card>
                         <CardHeader>
@@ -379,7 +247,7 @@ console.log(resumeData);
                       {/* Frameworks & Tools */}
                       <Card>
                         <CardHeader>
-                          <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <h3 className="text-lg font-semibold flex items-center gap-2 pt-6">
                             <Star className="w-5 h-5 text-teal-600" />
                             Frameworks & Tools
                           </h3>
@@ -434,17 +302,14 @@ console.log(resumeData);
                       </Card>
                     </motion.div>
                   </TabsContent>
-            {/* <p><strong></strong> {resumeData?.resume_data?.Skills?.join(", ")}</p>
-            <p><strong>Databases:</strong> {resumeData?.Skills?.Databases?.join(", ")}</p>
-            <p><strong>Frameworks/Tools:</strong> {resumeData?.Skills?.["Frameworks and Tools"]?.join(", ")}</p>
-            <p><strong>Interests:</strong> {resumeData?.Skills?.Interests?.join(", ")}</p> */}
+           
           
 
           {/* Other: Achievements + Positions */}
           <TabsContent value="more">
             <div className="space-y-4">
               <div>
-                <h3 className="font-semibold text-lg mb-1">Achievements</h3>
+                <h3 className="font-semibold text-lg mb-1 pt-6">Achievements</h3>
                 <ul className="list-disc list-inside">
                   {(resumeData?.resume_data?.Achievements || resumeData?.resume_data?.achievements)?.map((ach: string, index: number) => (
                     <li key={index}>{ach}</li>
@@ -453,7 +318,7 @@ console.log(resumeData);
               </div>
 
               <div>
-                <h3 className="font-semibold text-lg mb-1">Positions of Responsibility</h3>
+                <h3 className="font-semibold text-lg mb-1 pt-6">Positions of Responsibility</h3>
                 <ul className="list-disc list-inside">
                   {resumeData?.resume_data?.PositionsOfResponsibility?.map((pos: ResponsibilityEntry, index: number) => (
                     <li key={index}>
@@ -524,15 +389,7 @@ console.log(resumeData);
 
       {/* Action Buttons */}
       <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center">
-        {/* <Button
-          className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
-          asChild
-        >
-          <a href={latexResumeUrl} download>
-            <Download className="w-4 h-4 mr-2" />
-            Download Enhanced Resume
-          </a>
-        </Button> */}
+       
 
         <Button
           variant="outline"
