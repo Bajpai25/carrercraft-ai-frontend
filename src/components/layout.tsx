@@ -70,14 +70,68 @@ export function Layout({ children, className, ...props }: LayoutProps) {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-blue-950/30 ">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]"></div>
-      {/* <div 
-  className="
-    absolute inset-0 
-    [background-image:repeating-linear-gradient(#00000005_0_1px,transparent_1px_100%),repeating-linear-gradient(90deg,#00000005_0_1px,transparent_1px_100%)]
-    bg-[size:30px_30px]
-    dark:[background-image:repeating-linear-gradient(#ffffff0a_0_1px,transparent_1px_100%),repeating-linear-gradient(90deg,#ffffff0a_0_1px,transparent_1px_100%)]
-  "
-></div> */}
+
+  <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
+  {/* Bubble 1 */}
+  <motion.div
+    className="absolute top-[20%] left-[10%] w-40 h-40 bg-blue-500/40 dark:bg-blue-700/50 rounded-full blur-2xl"
+    animate={{
+      y: [0, -30, 0],
+      x: [0, 15, 0],
+    }}
+    transition={{
+      duration: 12,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+  />
+
+  {/* Bubble 2 */}
+  <motion.div
+    className="absolute top-[60%] left-[30%] w-28 h-28 bg-purple-500/40 dark:bg-purple-700/50 rounded-full blur-2xl"
+    animate={{
+      y: [0, 40, 0],
+      x: [0, -10, 0],
+    }}
+    transition={{
+      duration: 16,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: 2,
+    }}
+  />
+
+  {/* Bubble 3 */}
+  <motion.div
+    className="absolute top-[40%] right-[20%] w-36 h-36 bg-pink-500/40 dark:bg-pink-700/50 rounded-full blur-2xl"
+    animate={{
+      y: [0, -50, 0],
+      x: [0, 20, 0],
+    }}
+    transition={{
+      duration: 20,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: 4,
+    }}
+  />
+
+  {/* Bubble 4: deeper tone for layering */}
+  <motion.div
+    className="absolute bottom-[10%] right-[10%] w-24 h-24 bg-indigo-500/50 dark:bg-indigo-700/60 rounded-full blur-2xl"
+    animate={{
+      y: [0, 30, 0],
+      x: [0, -15, 0],
+    }}
+    transition={{
+      duration: 18,
+      repeat: Infinity,
+      ease: "easeInOut",
+      delay: 6,
+    }}
+  />
+</div>
+      
 <motion.div
   initial={{ opacity: 0.8, scale: 1, y: 0, x: "-50%" }}
   animate={{
@@ -96,10 +150,10 @@ export function Layout({ children, className, ...props }: LayoutProps) {
     dark:from-blue-800/50 dark:to-purple-800/50
     rounded-full blur-3xl
   "
-/>
+/> 
 
 {/* Bottom Right Dark Orb */}
-<motion.div
+ <motion.div
   initial={{ opacity: 0.8, scale: 1, y: 0, x: "50%" }}
   animate={{
     y: [10, -10, 10],
@@ -119,6 +173,7 @@ export function Layout({ children, className, ...props }: LayoutProps) {
     rounded-full blur-3xl
   "
 />
+
 
       {/* Gradient Orbs */}
       {/* <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400/20 to-purple-400/20 dark:from-blue-500/10 dark:to-purple-500/10 rounded-full blur-3xl"></div>
@@ -283,12 +338,16 @@ export function Layout({ children, className, ...props }: LayoutProps) {
                       Sign In
                     </Button>
                   </Link>
-                  <Link to="/auth">
+                  {user?(
+                    <Link to="/auth">
                     <Button className="bg-gradient-to-r text-white from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-sm font-medium shadow-lg hover:shadow-xl transition">
                       <Zap className="w-4 h-4 mr-2" />
                       Get Started
                     </Button>
                   </Link>
+                  ):
+                  null}
+                  
                 </div>
               )}
             </div>
