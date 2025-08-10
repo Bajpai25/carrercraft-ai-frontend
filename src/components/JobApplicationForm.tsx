@@ -1,12 +1,13 @@
 
 import type React from "react"
-import {  useState } from "react"
+import {   useState } from "react"
 import { uploadAndParseResume, uploadJob, generateFinalOutput } from "../lib/api"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./ui/button"
 import { Label } from "./ui/label"
 import { Card, CardContent } from "./ui/card"
 import { Dialog, DialogContent } from "./ui/dialog"
+
 import {
   Sparkles,
   ArrowRight,
@@ -21,9 +22,14 @@ import {
   Rocket,
   Target,
   Clock,
+ Clipboard
 } from "lucide-react"
 import { CareerCraftLogo } from "./ui/careercraft-logo"
 import { useAuth } from "./auth-provider"
+import {GET_RESUME_BY_USER_ID} from "../lib/api"
+import type { Resume } from "../pages/Dashboard"
+import { client } from "../lib/api"
+import { toast } from "react-hot-toast"
 
 
 
@@ -50,6 +56,9 @@ export type GeneratedOutput = CoverLetterOutput | ColdEmailOutput
 interface JobApplicationFormProps {
   onSubmit: (payload: GeneratedOutput) => void
 }
+interface GetResumeByUserIdResponse {
+  getResumeByUserId: Resume[]
+}
 
 
 export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
@@ -63,8 +72,19 @@ export function JobApplicationForm({ onSubmit }: JobApplicationFormProps) {
   const [loading, setLoading] = useState(false)
   const [loadingStep, setLoadingStep] = useState("")
   const [dragActive, setDragActive] = useState(false)
+  const [resumes,setresumeData]=useState<Resume[]>([]);
+  const userId = localStorage.getItem("userId") || ""
 
 const [resumeId, setResumeId] = useState('');
+
+const fetchResumedata_by_user_id = async (): Promise<GetResumeByUserIdResponse> => {
+  return await client.request(GET_RESUME_BY_USER_ID, { userId })
+}
+
+const loadData=async()=>{
+  const resData=await fetchResumedata_by_user_id();
+  setresumeData(resData.getResumeByUserId || []);
+}
 
 const handleResumeIdSubmit = () => {
   if (!resumeId.trim()) return;
@@ -121,9 +141,18 @@ const handleResumeIdSubmit = () => {
     { text: "Finalizing your document...", icon: Rocket, duration: 1000 },
   ]
 
-  const startProcess = () => {
+  const startProcess = async() => {
     setCurrentStep(0)
     setIsDialogOpen(true)
+    await loadData();
+  }
+   const handleCopy = () => {
+    const selectEl = document.getElementById("resumeSelect") as HTMLSelectElement;
+    if (selectEl && selectEl.value) {
+      navigator.clipboard.writeText(selectEl.value);
+      setResumeId(selectEl.value);
+      toast.success("ID copied to clipboard!");
+    }
   }
 
   const nextStep = async () => {
@@ -599,13 +628,36 @@ const handleResumeIdSubmit = () => {
   <label htmlFor="resumeId" className="text-lg font-semibold text-gray-700">
     Enter your Resume ID
   </label>
+<select
+        id="resumeSelect"
+        className="w-full bg-white dark:bg-gray-900 border border-gray-300 rounded-md py-2 px-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        {resumes.map((resume , index) => (
+          <option key={resume.id} value={resume.id}>
+            {`Resume ${index+1}`}
+          </option>
+        ))}
+      </select>
+
+      {/* Copy button */}
+      {resumeId==="" ? (
+<button
+        type="button"
+        onClick={handleCopy}
+        className="absolute right-8 top-1/3 text-gray-500 hover:text-gray-800"
+      >
+        <Clipboard className="w-6 h-6" />
+      </button>
+      ):null}
+      
   <div className="relative w-full max-w-md">
     <input
       type="text"
       id="resumeId"
       placeholder="e.g. 123e4567-e89b-12d3-a456-426614174000"
       value={resumeId}
-      onChange={(e) => setResumeId(e.target.value)}
+      disabled
+      // onChange={(e) => setResumeId(e.target.value)}
       className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 shadow-sm text-gray-800 transition"
     />
     {resumeId && (

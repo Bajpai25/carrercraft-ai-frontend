@@ -6,22 +6,50 @@ import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { Card, CardContent } from "../components/ui/card"
 import { ChevronRight, ChevronLeft, FileText, Briefcase, Zap, Loader2 } from "lucide-react"
-// import type { SkillGapData } from "./skill-gap-results"
+import { toast } from "react-hot-toast"
+import { Clipboard } from "lucide-react"
+import type { Resume , Job } from "../pages/Dashboard"
+
 
 interface SkillGapDialogProps {
   isOpen: boolean
   onClose: () => void
   onAnalyze: (resumeId: string, jobId: string,userId:string) => void
   isLoading: boolean
+  resumes: Resume[]
+  jobs: Job[]
 }
 
-export function SkillGapDialog({ isOpen, onClose, onAnalyze, isLoading }: SkillGapDialogProps) {
+export function SkillGapDialog({ isOpen, onClose, onAnalyze, isLoading , resumes , jobs }: SkillGapDialogProps) {
   const [step, setStep] = useState(1)
   const [resumeId, setResumeId] = useState(localStorage.getItem("resumeId")|| null)
   const [jobId, setJobId] = useState(localStorage.getItem("jobId")|| null)
   const [userId ,setuserId]=useState(localStorage.getItem("userId") || null)
+  const [selected ,setselected]=useState<boolean>(false)
+  const [jobSelected ,setjobSelected]=useState<boolean>(false)
+ 
 
-  const handleNext = () => {
+
+const handleCopy = () => {
+    const selectEl = document.getElementById("resumeSelect") as HTMLSelectElement;
+    if (selectEl && selectEl.value) {
+      navigator.clipboard.writeText(selectEl.value);
+      setResumeId(selectEl.value);
+      setselected(true);
+      toast.success("ID copied to clipboard!");
+    }
+  }
+  const handleCopyjob = () => {
+    const selectEl = document.getElementById("jobselect") as HTMLSelectElement;
+    if (selectEl && selectEl.value) {
+      navigator.clipboard.writeText(selectEl.value);
+      setjobSelected(true);
+      setJobId(selectEl.value);
+      toast.success("ID copied to clipboard!");
+    }
+  }
+
+  const handleNext = async() => {
     if (step === 1 && resumeId?.trim()) {
       setStep(2)
     }
@@ -98,15 +126,36 @@ export function SkillGapDialog({ isOpen, onClose, onAnalyze, isLoading }: SkillG
 
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="resumeId" className="text-sm font-medium text-gray-700">
-                        Resume ID
-                      </Label>
+                       <label htmlFor="resumeId" className="text-lg font-semibold text-gray-700">
+    Enter your Resume ID
+  </label>
+                      <select
+        id="resumeSelect"
+        className="w-full bg-white dark:bg-gray-900 border border-gray-300 rounded-md py-2 px-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        {resumes.map((resume,index) => (
+          <option key={resume.id} value={resume.id}>
+            {`Resume ${index+1}`}
+          </option>
+        ))}
+      </select>
+
+      {/* Copy button */}
+      {!selected ? (
+<button
+        type="button"
+        onClick={handleCopy}
+        className="absolute right-16  text-gray-500 hover:text-gray-800"
+      >
+        <Clipboard className="w-5 h-5 mt-2" />
+      </button>
+      ):null}
                       <Input
                         id="resumeId"
                         type="text"
                         placeholder="e.g., 2e43bbcd-ef02-4fa9-94a7-514f25dc4d4b"
                         value={resumeId || ""}
-                        onChange={(e) => setResumeId(e.target.value)}
+                        // onChange={(e) => setResumeId(e.target.value)}
                         className="mt-1"
                       />
                     </div>
@@ -138,12 +187,32 @@ export function SkillGapDialog({ isOpen, onClose, onAnalyze, isLoading }: SkillG
                       <Label htmlFor="jobId" className="text-sm font-medium text-gray-700">
                         Job ID
                       </Label>
+                           <select
+        id="jobselect"
+        className="w-full bg-white dark:bg-gray-900 border border-gray-300 rounded-md py-2 px-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        {jobs.map((jobs,index) => (
+          <option key={jobs.id} value={jobs.id}>
+            {`Jobs ${index+1}`}
+          </option>
+        ))}
+      </select>
+       {/* Copy button */}
+      {!jobSelected ? (
+<button
+        type="button"
+        onClick={handleCopyjob}
+        className="absolute right-16  text-gray-500 hover:text-gray-800"
+      >
+        <Clipboard className="w-5 h-5 mt-2" />
+      </button>
+      ):null}
                       <Input
                         id="jobId"
                         type="text"
                         placeholder="e.g., 46b39e72-1902-4192-bf9b-aedc420c135f"
                         value={jobId || ""}
-                        onChange={(e) => setJobId(e.target.value)}
+                        disabled
                         className="mt-1"
                       />
                     </div>
